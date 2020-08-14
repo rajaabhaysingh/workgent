@@ -16,6 +16,7 @@
   --black: #000000;
   --text-5c: #5c5c5c;
   --text-8a: #8a8a8a;
+  --eeeeee: #eeeeee;
   --light-gray: #dddddd;
   --transparent: #00000000;
 }
@@ -54,6 +55,9 @@
 }
 .bg_warn-light {
   background: var(--warning-light);
+}
+.bg_gray-light {
+  background: var(--eeeeee);
 }
 
 .bg_pink_grad {
@@ -131,6 +135,9 @@
 }
 
 /* links */
+.link {
+  text-decoration: none;
+}
 .link-white {
   text-decoration: none;
   color: var(--white);
@@ -205,6 +212,9 @@
 }
 .fsxl {
   font-size: 1.5rem;
+}
+.fs2x {
+  font-size: 2rem;
 }
 .fwb {
   font-weight: bold;
@@ -310,6 +320,12 @@
 .pad_8-0 {
   padding: 8px 0;
 }
+.pad_12-0 {
+  padding: 12px 0;
+}
+.pad_16-0 {
+  padding: 16px 0;
+}
 .pad_0-12 {
   padding: 0 12px;
 }
@@ -391,6 +407,18 @@
 }
 .mar-0-auto {
   margin: 0 auto;
+}
+.mar-4 {
+  margin: 4px;
+}
+.mar-8 {
+  margin: 8px;
+}
+.mar-12 {
+  margin: 12px;
+}
+.mar-16 {
+  margin: 16px;
 }
 
 /* margin - left */
@@ -579,6 +607,10 @@
     background: var(--pri-light);
     transition: ease-in 0.2s;
   }
+  .sd_link_opt:active {
+    background: var(--pri-very-light);
+    color: var(--pri-col);
+  }
 }
 /* stylus-based screens */
 @media (hover: none) and (pointer: fine) {
@@ -602,6 +634,10 @@
   .foc_opt_btn:active {
     background: var(--pri-light);
     transition: ease-in 0.2s;
+  }
+  .sd_link_opt:active {
+    background: var(--pri-very-light);
+    color: var(--pri-col);
   }
 }
 /* Nintendo Wii controller, Microsoft Kinect */
@@ -627,6 +663,10 @@
     background: var(--pri-light);
     transition: ease-in 0.2s;
   }
+  .sd_link_opt:hover {
+    background: var(--pri-very-light);
+    color: var(--pri-col);
+  }
 }
 /* mouse, touch pad */
 @media (hover: hover) and (pointer: fine) {
@@ -650,6 +690,10 @@
   .foc_opt_btn:hover {
     background: var(--pri-light);
     transition: ease-in 0.2s;
+  }
+  .sd_link_opt:hover {
+    background: var(--pri-very-light);
+    color: var(--pri-col);
   }
 }
 
@@ -680,17 +724,55 @@
   height: 36px;
   width: 36px;
 }
-.side_drawer {
-  z-index: 5002;
-  transform: translateX(-101%);
-}
-.show_drawer {
-  transform: translateX(0%);
-}
 .opt_btn {
   height: 36px;
   width: 36px;
-  margin-right: 16px;
+}
+/* --------------- */
+
+/* --------------- */
+/* - side drawer - */
+.side_drawer {
+  z-index: 7500;
+  transform: translateX(-101%);
+  width: 70%;
+  max-width: 360px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transition: ease-in 0.15s;
+}
+.drawer_open {
+  transform: translateX(0%);
+  transition: ease-in 0.15s;
+}
+.backdrop_dark {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  z-index: 7400;
+  top: 0;
+  left: 0;
+}
+.sd_pre_header {
+  height: 26px;
+}
+.sd_header {
+  height: 48px;
+}
+.sd-img {
+  height: 24px;
+  width: 24px;
+  margin-right: 24px;
+}
+.sd_link_opt {
+  border-radius: 0 20px 20px 0;
+}
+/* --------------- */
+/* --------------- */
+
+/* -- search bar -- */
+.search_bar {
 }
 /* --------------- */
 
@@ -705,6 +787,8 @@
   }
   .site_logo {
     height: 32px;
+  }
+  .search_bar {
   }
 }
 
@@ -721,6 +805,9 @@
     margin-left: 4px;
     height: 28px;
   }
+  .search_bar {
+    top: 55px;
+  }
 }
 
 /*for screen size less than 375px*/
@@ -735,5 +822,8 @@
   .site_logo {
     margin-left: 4px;
     height: 24px;
+  }
+  .search_bar {
+    top: 55px;
   }
 }

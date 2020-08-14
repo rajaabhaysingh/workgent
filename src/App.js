@@ -1,4 +1,11 @@
-import React, { memo, lazy, Suspense, useState } from "react";
+import React, {
+  memo,
+  lazy,
+  Suspense,
+  useState,
+  useRef,
+  createContext,
+} from "react";
 import "./App.css";
 import "./styles/styles.css";
 
@@ -10,13 +17,17 @@ import ErrorBoundary from "./components/errorBoundary/ErrorBoundary";
 import Fallback from "./components/errorBoundary/Fallback";
 
 // components imports
+import SideDrawer from "./components/header/sideDrawer/SideDrawer";
+import BackdropDark from "./components/layouts/backdrops/BackdropDark";
+
 const TopMessage = lazy(() => import("./components/header/TopMessage"));
 const Header = lazy(() => import("./components/header/Header"));
-const SideDrawer = lazy(() =>
-  import("./components/header/sideDrawer/SideDrawer")
-);
 const Home = lazy(() => import("./components/home/Home"));
 const Categories = lazy(() => import("./components/categories/Categories"));
+
+// creating global contexts
+export const userContext = createContext();
+export const locationContext = createContext();
 
 function App() {
   // state management
@@ -24,6 +35,27 @@ function App() {
   const [headerPosTop, setHeaderPosTop] = useState("26px");
   const [bodyMarginTop, setBodyMarginTop] = useState("74px");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [user, setUser] = useState({
+    isLoggedIn: localStorage.getItem("isCurrentlyLoggedIn") ? true : false,
+    userName: localStorage.getItem("isCurrentlyLoggedIn")
+      ? localStorage.getItem("username")
+      : undefined,
+    token: localStorage.getItem("token")
+      ? localStorage.getItem("token")
+      : undefined,
+  });
+  const [location, setLocation] = useState({
+    address: localStorage.getItem("address")
+      ? localStorage.getItem("address")
+      : "",
+    lat: localStorage.getItem("lat") ? localStorage.getItem("lat") : undefined,
+    long: localStorage.getItem("long")
+      ? localStorage.getItem("long")
+      : undefined,
+  });
+  // destructuring object based states
+  const { isLoggedIn, userName, token } = user;
+  const { address, lat, long } = location;
 
   // drawerClickHandler
   const drawerClickHandler = () => {
@@ -32,12 +64,114 @@ function App() {
     });
   };
 
+  // --- backdrop and slide sideDrawer functionality ---
+  let alpha = 0.75;
+
+  // detecting backdrop and sideDrawer main divs
+  const sideDrawerRef = useRef(null);
+  const backdropRef = useRef(null);
+
+  //backdrop click handler
+  const backdropClickHandler = () => {
+    setIsDrawerOpen(false);
+  };
+
+  // handling backdrop
+  let backDropDark = undefined;
+
+  if (isDrawerOpen) {
+    backDropDark = (
+      <BackdropDark
+        backdropRef={backdropRef}
+        alpha={alpha}
+        click={backdropClickHandler}
+      />
+    );
+  }
+
+  // touch and swipe events function
+  // side_drawer is in child component as of now
+  const sideDrawer = sideDrawerRef.current;
+
+  let startingX = null;
+
+  // fun handleTouchStart
+  const handleTouchStart = (e) => {
+    startingX = e.touches[0].clientX;
+  };
+
+  // fun handleTouchMove
+  const handleTouchMove = (e) => {
+    const backdrop = backdropRef.current;
+
+    if (backdrop) {
+      // DEFINING touch parameters
+      let touch = e.touches[0];
+      let change = startingX - touch.clientX;
+
+      // handling backdrop TRANSPARENCY parameters
+      let getScreenWidth = window.innerWidth;
+      let swipeRange = startingX;
+      if (getScreenWidth > 428) {
+        // calculate on 300px
+        alpha = (touch.clientX / startingX) * 0.75;
+      } else {
+        // calculate on 70% of screen width
+        alpha = (touch.clientX / swipeRange) * 0.75;
+      }
+
+      // if swipes right in home screen - do nothing
+      if (change < 0) {
+        return;
+      } else {
+        backdrop.style.background = `rgba(0, 0, 0, ${alpha})`;
+        sideDrawer.style.left = "-" + change + "px";
+        sideDrawer.style.transition = "all 0s";
+      }
+    }
+  };
+
+  // fun handleTouchEnd
+  const handleTouchEnd = (e) => {
+    var change = startingX - e.changedTouches[0].clientX;
+    var threshold = window.innerWidth / 5;
+    if (change < threshold) {
+      sideDrawer.style.left = 0;
+      sideDrawer.style.transition = "all ease-in 0.15s";
+    } else {
+      // perform backdrop click
+      backdropClickHandler();
+      // set left to 0 - dafault value
+      sideDrawer.style.left = "0";
+      sideDrawer.style.transition = "all ease-in 0.15s";
+    }
+  };
+
+  // -----------------------------------------
+
   return (
     <div className="App">
-      <div className="App-header">
-        <ErrorBoundary>
-          <Suspense fallback={<Fallback />}>
-            {/* <LoadingBar
+      <locationContext.Provider
+        value={{
+          address,
+          lat,
+          long,
+          location,
+          setLocation,
+        }}
+      >
+        <userContext.Provider
+          value={{
+            isLoggedIn,
+            userName,
+            token,
+            setUser,
+          }}
+        >
+          <div className="App-header">
+            <ErrorBoundary>
+              <Suspense fallback={<Fallback />}>
+                {/* <LoadingBar
               className="w-100 bg_pink_grad"
               shadow={false}
               color={"#e52e71"}
@@ -45,50 +179,58 @@ function App() {
               progress={progress}
               onLoaderFinished={() => setProgress(0)}
             /> */}
-            {isTopMsgVisible && (
-              <TopMessage
-                isTopMsgVisible={isTopMsgVisible}
-                setIsTopMsgVisible={setIsTopMsgVisible}
-                setHeaderPosTop={setHeaderPosTop}
-                setBodyMarginTop={setBodyMarginTop}
-              />
-            )}
-            <Header
-              headerPosTop={headerPosTop}
-              drawerClickHandle={drawerClickHandler}
-            />
-            <div className="h-100 w-90">
-              <SideDrawer
-                isDrawerOpen={isDrawerOpen}
-                setIsDrawerOpen={setIsDrawerOpen}
-              />
-            </div>
-          </Suspense>
-        </ErrorBoundary>
-      </div>
-      <div style={{ marginTop: bodyMarginTop }} className="App-body">
-        <Switch>
-          <Route exact strict path="/">
-            <ErrorBoundary>
-              <Suspense fallback={<Fallback />}>
-                <Home />
+                {isTopMsgVisible && (
+                  <TopMessage
+                    isTopMsgVisible={isTopMsgVisible}
+                    setIsTopMsgVisible={setIsTopMsgVisible}
+                    setHeaderPosTop={setHeaderPosTop}
+                    setBodyMarginTop={setBodyMarginTop}
+                  />
+                )}
+                <Header
+                  headerPosTop={headerPosTop}
+                  drawerClickHandler={drawerClickHandler}
+                />
+                <div
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
+                >
+                  <SideDrawer
+                    sideDrawerRef={sideDrawerRef}
+                    isDrawerOpen={isDrawerOpen}
+                    setIsDrawerOpen={setIsDrawerOpen}
+                  />
+                  {backDropDark}
+                </div>
               </Suspense>
             </ErrorBoundary>
-          </Route>
-          <Route strict path="/categories">
-            <ErrorBoundary>
-              <Suspense fallback={<Fallback />}>
-                <Categories />
-              </Suspense>
-            </ErrorBoundary>
-          </Route>
-          <Route>
-            <div>
-              ERROR 404 - Requested <code>url</code> unavailable.
-            </div>
-          </Route>
-        </Switch>
-      </div>
+          </div>
+          <div style={{ marginTop: bodyMarginTop }} className="App-body">
+            <Switch>
+              <Route exact strict path="/">
+                <ErrorBoundary>
+                  <Suspense fallback={<Fallback />}>
+                    <Home />
+                  </Suspense>
+                </ErrorBoundary>
+              </Route>
+              <Route strict path="/categories">
+                <ErrorBoundary>
+                  <Suspense fallback={<Fallback />}>
+                    <Categories />
+                  </Suspense>
+                </ErrorBoundary>
+              </Route>
+              <Route>
+                <div>
+                  ERROR 404 - Requested <code>url</code> unavailable.
+                </div>
+              </Route>
+            </Switch>
+          </div>
+        </userContext.Provider>
+      </locationContext.Provider>
     </div>
   );
 }
