@@ -9,15 +9,18 @@
 -- Updated on every successful login-attempts
 -- Deleted after user logs-out or token expires
 
-## 3. "token" : string
+<!-- ## 3. "refreshToken" : string
 
--- Contains unique JWT for unique identification of user
--- Updated on every successful login-attempts
+-- Updated on every refresh request sent
 
-## 4. address : string
+## 4. "accessToken" : string
 
-## 5. lat : string
+-- Updated on every successful login-attempts -->
 
-## 6. long : string
+## 5. address : string
+
+## 6. lat : string
+
+## 7. long : string
 
 -- Updated on every new location entry or auto-scan

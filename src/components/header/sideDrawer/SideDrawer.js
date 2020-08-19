@@ -1,15 +1,18 @@
 import React, { useContext } from "react";
 import "../../../styles/styles.css";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import { userContext } from "../../../App";
 
 import * as Colors from "../../../constants/Colors";
 import headerLogo from "../../../res/header/logo_72x72.png";
 
 const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
+  // initilizing useHistory and useRouteMatch
+  const history = useHistory();
+
   // using imported context
-  const { isLoggedIn, userName, token, setUser } = useContext(userContext);
+  const { isLoggedIn, userName, user, setUser } = useContext(userContext);
 
   // handling drawer classes open/close
   let drawerClasses = "fcol bg_white side_drawer";
@@ -27,14 +30,13 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
     // removing login info from local storage
     localStorage.removeItem("isCurrentlyLoggedIn");
     localStorage.removeItem("username");
-    localStorage.removeItem("token");
 
     // logging out locally too
     setUser(() => {
       return {
         isLoggedIn: false,
         userName: undefined,
-        token: undefined,
+        accessToken: undefined,
       };
     });
     // closeDrawer();
@@ -42,25 +44,15 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
 
   // logInUser
   const logInUser = () => {
-    // add login info to local storage
-    localStorage.setItem("isCurrentlyLoggedIn", true);
-    localStorage.setItem("username", "rajaabhaysingh233@gmail.com");
-    localStorage.setItem("token", "GFYT7Ver6-midjcnyr076876b9-B878");
-
-    // log in user locally too
-    setUser(() => {
-      return {
-        isLoggedIn: true,
-        userName: localStorage.getItem("username"),
-        token: localStorage.getItem("token"),
-      };
-    });
-    // closeDrawer();
+    // redirect user to login page and pass forwarding url as well (if required)
+    history.push(`/login/?destination=${window.location.href}`);
+    // history.push("/login/");
+    closeDrawer();
   };
 
   // renderIsLoggedIn
   const renderIsLoggedIn = () => {
-    if (isLoggedIn && token) {
+    if (isLoggedIn && userName) {
       return (
         <>
           <div className="fcol mar_l-16 mar_t-12 mar_b-12 of-scr sb-hid">

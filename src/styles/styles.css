@@ -8,7 +8,7 @@
   --error: #cc0000;
   --error-light: #ffdfdf;
   --success: #008800;
-  --success-light: #dcffdc;
+  --success-light: #ebffeb;
   --warning: #ee5700;
   --warning-light: #fffbef;
   --white: #ffffff;
@@ -52,6 +52,9 @@
 }
 .bg_err-light {
   background: var(--error-light);
+}
+.bg_succ-light {
+  background: var(--success-light);
 }
 .bg_warn-light {
   background: var(--warning-light);
@@ -806,7 +809,6 @@
     height: 28px;
   }
   .search_bar {
-    top: 55px;
   }
 }
 
@@ -824,6 +826,5 @@
     height: 24px;
   }
   .search_bar {
-    top: 55px;
   }
 }

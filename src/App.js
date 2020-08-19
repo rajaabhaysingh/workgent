@@ -5,6 +5,7 @@ import React, {
   useState,
   useRef,
   createContext,
+  useEffect,
 } from "react";
 import "./App.css";
 import "./styles/styles.css";
@@ -16,6 +17,9 @@ import { Switch, Route } from "react-router-dom";
 import ErrorBoundary from "./components/errorBoundary/ErrorBoundary";
 import Fallback from "./components/errorBoundary/Fallback";
 
+// importing utilities functions
+import { RefreshAccessToken } from "./Utilities";
+
 // components imports
 import SideDrawer from "./components/header/sideDrawer/SideDrawer";
 import BackdropDark from "./components/layouts/backdrops/BackdropDark";
@@ -24,10 +28,14 @@ const TopMessage = lazy(() => import("./components/header/TopMessage"));
 const Header = lazy(() => import("./components/header/Header"));
 const Home = lazy(() => import("./components/home/Home"));
 const Categories = lazy(() => import("./components/categories/Categories"));
+const Login = lazy(() => import("./components/auth/login/Login"));
 
 // creating global contexts
 export const userContext = createContext();
 export const locationContext = createContext();
+
+// exporting base-url for backend-server
+export const BASE_URL = "http://localhost:8000/";
 
 function App() {
   // state management
@@ -40,9 +48,10 @@ function App() {
     userName: localStorage.getItem("isCurrentlyLoggedIn")
       ? localStorage.getItem("username")
       : undefined,
-    token: localStorage.getItem("token")
-      ? localStorage.getItem("token")
-      : undefined,
+    // refreshToken: localStorage.getItem("refreshToken")
+    //   ? localStorage.getItem("refreshToken")
+    //   : undefined,
+    accessToken: undefined,
   });
   const [location, setLocation] = useState({
     address: localStorage.getItem("address")
@@ -53,9 +62,23 @@ function App() {
       ? localStorage.getItem("long")
       : undefined,
   });
+
   // destructuring object based states
-  const { isLoggedIn, userName, token } = user;
+  const { isLoggedIn, userName, accessToken } = user;
   const { address, lat, long } = location;
+
+  // continuously refresh accessToken after 4 min 30 sec
+  useEffect(() => {
+    // if (refreshToken && isLoggedIn) {
+    //   const refreshAccessTokenInterval = setInterval(async () => {
+    //     const response = await RefreshAccessToken(refreshToken);
+    //     console.log(response);
+    //   }, 10 * 1000); // 270 seconds
+    //   return () => {
+    //     clearInterval(refreshAccessTokenInterval);
+    //   };
+    // }
+  }, []);
 
   // drawerClickHandler
   const drawerClickHandler = () => {
@@ -164,7 +187,7 @@ function App() {
           value={{
             isLoggedIn,
             userName,
-            token,
+            accessToken,
             setUser,
           }}
         >
@@ -207,27 +230,26 @@ function App() {
             </ErrorBoundary>
           </div>
           <div style={{ marginTop: bodyMarginTop }} className="App-body">
-            <Switch>
-              <Route exact strict path="/">
-                <ErrorBoundary>
-                  <Suspense fallback={<Fallback />}>
+            <ErrorBoundary>
+              <Suspense fallback={<Fallback />}>
+                <Switch>
+                  <Route exact strict path="/">
                     <Home />
-                  </Suspense>
-                </ErrorBoundary>
-              </Route>
-              <Route strict path="/categories">
-                <ErrorBoundary>
-                  <Suspense fallback={<Fallback />}>
+                  </Route>
+                  <Route strict path="/categories">
                     <Categories />
-                  </Suspense>
-                </ErrorBoundary>
-              </Route>
-              <Route>
-                <div>
-                  ERROR 404 - Requested <code>url</code> unavailable.
-                </div>
-              </Route>
-            </Switch>
+                  </Route>
+                  <Route strict path="/login">
+                    <Login />
+                  </Route>
+                  <Route>
+                    <div>
+                      ERROR 404 - Requested <code>url</code> unavailable.
+                    </div>
+                  </Route>
+                </Switch>
+              </Suspense>
+            </ErrorBoundary>
           </div>
         </userContext.Provider>
       </locationContext.Provider>
