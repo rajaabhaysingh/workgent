@@ -1,5 +1,4 @@
 import React, { memo, useContext, useCallback, useState } from "react";
-import "../../../styles/styles.css";
 
 import { locationContext } from "../../../App";
 

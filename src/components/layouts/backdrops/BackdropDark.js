@@ -1,5 +1,4 @@
 import React, { memo } from "react";
-import "../../../styles/styles.css";
 
 const BackdropDark = ({ backdropRef, alpha, click }) => {
   // backdrop style wrapper

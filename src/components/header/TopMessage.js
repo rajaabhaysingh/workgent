@@ -1,5 +1,4 @@
 import React, { memo, useState, useEffect } from "react";
-import "../../styles/styles.css";
 
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 

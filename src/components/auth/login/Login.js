@@ -1,5 +1,4 @@
 import React, { useState, useContext, useEffect } from "react";
-import "../../../styles/styles.css";
 
 import { useHistory } from "react-router-dom";
 
@@ -15,7 +14,7 @@ const Login = ({ continueText }) => {
   // local state management
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [keepMeSignedIn, setKeepMeSignedIn] = useState(true);
+  const [keepMeSignedIn, setKeepMeSignedIn] = useState(false);
   const [pwdVisible, setPwdVisible] = useState(false);
 
   // using imported context

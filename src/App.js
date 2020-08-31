@@ -17,8 +17,9 @@ import { Switch, Route } from "react-router-dom";
 import ErrorBoundary from "./components/errorBoundary/ErrorBoundary";
 import Fallback from "./components/errorBoundary/Fallback";
 
-// importing utilities functions
+// importing utilities functions and routes
 import { RefreshAccessToken } from "./Utilities";
+import routes from "./routes";
 
 // components imports
 import SideDrawer from "./components/header/sideDrawer/SideDrawer";
@@ -26,16 +27,10 @@ import BackdropDark from "./components/layouts/backdrops/BackdropDark";
 
 const TopMessage = lazy(() => import("./components/header/TopMessage"));
 const Header = lazy(() => import("./components/header/Header"));
-const Home = lazy(() => import("./components/home/Home"));
-const Categories = lazy(() => import("./components/categories/Categories"));
-const Login = lazy(() => import("./components/auth/login/Login"));
 
 // creating global contexts
 export const userContext = createContext();
 export const locationContext = createContext();
-
-// exporting base-url for backend-server
-export const BASE_URL = "http://localhost:8000/";
 
 function App() {
   // state management
@@ -233,19 +228,19 @@ function App() {
             <ErrorBoundary>
               <Suspense fallback={<Fallback />}>
                 <Switch>
-                  <Route exact strict path="/">
-                    <Home />
-                  </Route>
-                  <Route strict path="/categories">
-                    <Categories />
-                  </Route>
-                  <Route strict path="/login">
-                    <Login />
-                  </Route>
+                  {routes.map((route, index) => (
+                    <Route
+                      path={route.path}
+                      key={index}
+                      exact={route.exact ? true : false}
+                      strict={route.strict ? true : false}
+                      render={(props) => <route.component {...props} />}
+                    ></Route>
+                  ))}
                   <Route>
-                    <div>
-                      ERROR 404 - Requested <code>url</code> unavailable.
-                    </div>
+                    <h1>
+                      <code>Error 404, page not found.</code>
+                    </h1>
                   </Route>
                 </Switch>
               </Suspense>

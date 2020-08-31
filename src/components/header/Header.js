@@ -1,5 +1,4 @@
 import React, { lazy, Suspense } from "react";
-import "../../styles/styles.css";
 
 import logo from "../../res/header/logo_dark_bg.png";
 import ToggleButton from "./sideDrawer/ToggleButton";

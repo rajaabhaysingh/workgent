@@ -1,14 +1,15 @@
 import axios from "axios";
 
-import { BASE_URL } from "./App";
-
 // refreshes access token on each call, given that refreshToken hasn't expired
 // returns response if successful or error
 export const RefreshAccessToken = async (refreshToken) => {
   try {
-    let response = await axios.post(`${BASE_URL}verif/token/refresh/`, {
-      refresh: refreshToken,
-    });
+    let response = await axios.post(
+      `http://localhost:8000/verif/token/refresh/`,
+      {
+        refresh: refreshToken,
+      }
+    );
     return response;
   } catch (error) {
     return error;
@@ -19,7 +20,7 @@ export const RefreshAccessToken = async (refreshToken) => {
 // returns response if successful or error
 export const LoginUser = async (uname, pwd) => {
   try {
-    let response = await axios.post(`${BASE_URL}verif/token/`, {
+    let response = await axios.post(`http://localhost:8000/verif/token/`, {
       username: uname,
       password: pwd,
     });
@@ -45,9 +46,20 @@ export const getUrlParams = (queryString) => {
 };
 
 //
-export const GetData = async (url, params, header) => {};
+export const GetData = async (endPoint, params, header, requestType) => {
+  switch (requestType) {
+    case "GET":
+      try {
+        let response = axios.get(endPoint, params, header);
+        return response;
+      } catch (error) {
+        return error;
+      }
 
-export const PostData = async (url, params, header) => {};
+    default:
+      break;
+  }
+};
 
 export const TimestampToTime = (ts, format) => {
   switch (format) {

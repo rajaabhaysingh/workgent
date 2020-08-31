@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import "../../../styles/styles.css";
 
 import { NavLink, useHistory } from "react-router-dom";
 import { userContext } from "../../../App";
@@ -45,8 +44,7 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
   // logInUser
   const logInUser = () => {
     // redirect user to login page and pass forwarding url as well (if required)
-    history.push(`/login/?destination=${window.location.href}`);
-    // history.push("/login/");
+    history.push("/login/");
     closeDrawer();
   };
 
