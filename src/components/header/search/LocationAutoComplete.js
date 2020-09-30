@@ -185,7 +185,8 @@ const LocationAutoComplete = () => {
   // --------------------------------------------------
 
   return (
-    <div>
+    <div className="fcc pos_rel">
+      <i className="fas fa-map-marker-alt"></i>
       <PlacesAutocomplete
         value={address}
         onChange={handleChange}
@@ -194,23 +195,23 @@ const LocationAutoComplete = () => {
         searchOptions={searchOptions}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div className="autocomplete_places_main_outer_div">
+          <div className="fccc pos_rel">
             <input
               {...getInputProps({
                 placeholder: addressPlaceholder,
-                className: "location_search_input",
+                className: "inp_pri",
                 autoFocus: false,
                 required: true,
               })}
             />
-            <div className="autocomplete_dropdown_container">
+            <div className="pos_abs-0-0-r">
               {loading && (
-                <div className="loading_location_div">
+                <div className="fss fcc">
                   Loading... <i className="fas fa-circle-notch fa-spin"></i>
                 </div>
               )}
               {suggestions.map((suggestion) => {
-                const className = "suggestion_item";
+                const className = "fss fcc";
                 return (
                   <div
                     key={suggestion.id}
@@ -218,12 +219,7 @@ const LocationAutoComplete = () => {
                       className,
                     })}
                   >
-                    <div className="suggestion_desc">
-                      {suggestion.description}
-                    </div>
-                    <div className="up_left_arrow">
-                      <i className="fas fa-arrow-left"></i>
-                    </div>
+                    <div className="">{suggestion.description}</div>
                   </div>
                 );
               })}
@@ -232,9 +228,13 @@ const LocationAutoComplete = () => {
         )}
       </PlacesAutocomplete>
       {/* location utility btn */}
-      <div className="searchbar_utility_btn_location" onClick={getLocation}>
+      <button
+        className="btn pos_abs-0-0-r"
+        onClick={getLocation}
+        type={"button"}
+      >
         <i className="fas fa-crosshairs"></i>
-      </div>
+      </button>
       <ToastContainer />
     </div>
   );

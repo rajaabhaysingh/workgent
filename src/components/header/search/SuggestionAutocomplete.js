@@ -1,13 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 
 const SuggestionAutocomplete = () => {
+  // local state management
+  const [value, setValue] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
-    <div className="fcol w-100 h-100">
-      <div className="fc">
-        <i className="fas fa-search"></i>
-        <input type="text" />
-      </div>
-      <div className="fcol"></div>
+    <div className="fcc">
+      <i className="fas fa-search"></i>
+      <input type="text" />
     </div>
   );
 };

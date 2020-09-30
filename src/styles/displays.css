@@ -1,0 +1,53 @@
+/* visiblity */
+.hid {
+  display: none;
+}
+.vis-flex {
+  display: flex;
+}
+.vis {
+  display: block;
+}
+/* flex properties */
+.fcc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fccc {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.fcc_around {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+}
+.fcol {
+  display: flex;
+  flex-direction: column;
+}
+.fc {
+  display: flex;
+  align-items: center;
+}
+.fend {
+  display: flex;
+  align-items: flex-end;
+}
+.fjustc {
+  display: flex;
+  justify-content: center;
+}
+.fc_bw {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.f1 {
+  display: flex;
+  flex: 1;
+}

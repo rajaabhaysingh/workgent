@@ -14,9 +14,11 @@
     "react-places-autocomplete": "^7.3.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.2",
+    "react-simple-chatbot": "^0.6.1",
     "react-toastify": "^6.0.8",
     "react-top-loading-bar": "^2.0.0",
     "serialize-javascript": "^4.0.0",
+    "styled-components": "^5.2.0",
     "typescript": "^3.9.7",
     "yargs-parser": "^18.1.3"
   },

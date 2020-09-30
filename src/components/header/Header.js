@@ -1,13 +1,46 @@
-import React, { lazy, Suspense } from "react";
+import React, { useState, useContext } from "react";
 
 import logo from "../../res/header/logo_dark_bg.png";
 import ToggleButton from "./sideDrawer/ToggleButton";
-import ErrorBoundary from "../errorBoundary/ErrorBoundary";
-import Fallback from "../errorBoundary/Fallback";
+import SearchBar from "./search/SearchBar";
 
-const SearchBar = lazy(() => import("./search/SearchBar"));
+import { searchBarContext } from "../../App";
 
 const Header = ({ headerPosTop, drawerClickHandler }) => {
+  // managing local state
+  const [searchBarClass, setSearchBarClass] = useState(
+    "search_bar_visible pos_abs fcc w-100"
+  );
+
+  // destructuring imported context
+  const {
+    isSearchBarVisible,
+    setIsSearchBarVisible,
+    setSearchBarVisibleClass,
+  } = useContext(searchBarContext);
+
+  // toggleSearchBarVisiblity
+  const toggleSearchBarVisiblity = () => {
+    if (isSearchBarVisible) {
+      setSearchBarVisibleClass(() => {
+        return "search_hidden_body h-100 w-100";
+      });
+      setSearchBarClass(() => {
+        return "search_bar_hidden pos_abs fcc w-100";
+      });
+    } else {
+      setSearchBarVisibleClass(() => {
+        return "search_visible_body h-100 w-100";
+      });
+      setSearchBarClass(() => {
+        return "search_bar_visible pos_abs fcc w-100";
+      });
+    }
+    setIsSearchBarVisible(() => {
+      return !isSearchBarVisible;
+    });
+  };
+
   return (
     <div
       style={{ top: headerPosTop }}
@@ -26,7 +59,10 @@ const Header = ({ headerPosTop, drawerClickHandler }) => {
         </div>
         {/* right part of the header */}
         <div className="fc">
-          <button className="opt_btn foc_opt_btn bg_trans btn cur fcc round-complete fsl fc_white">
+          <button
+            className="opt_btn foc_opt_btn bg_trans btn cur fcc round-complete fsl fc_white"
+            onClick={toggleSearchBarVisiblity}
+          >
             <i className="fas fa-search"></i>
           </button>
           <button className=" opt_btn foc_opt_btn bg_trans btn cur fcc round-complete fsl fc_white">
@@ -34,12 +70,8 @@ const Header = ({ headerPosTop, drawerClickHandler }) => {
           </button>
         </div>
       </div>
-      <div className="search_bar pos_abs fcc">
-        <ErrorBoundary>
-          <Suspense fallback={<Fallback />}>
-            <SearchBar />
-          </Suspense>
-        </ErrorBoundary>
+      <div className={searchBarClass}>
+        <SearchBar />
       </div>
     </div>
   );

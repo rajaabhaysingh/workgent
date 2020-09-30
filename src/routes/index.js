@@ -21,14 +21,14 @@ const routes = [
   },
   // Register or Signup
   {
-    path: "/auth/register",
+    path: "/register",
     component: Signup,
     title: "Workgent - Register",
     exact: true,
   },
   // Login
   {
-    path: "/auth/login",
+    path: "/login",
     component: Login,
     title: "Workgent - Login",
     exact: true,
