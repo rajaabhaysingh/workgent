@@ -66,6 +66,9 @@ function App() {
   const [searchBarVisibleClass, setSearchBarVisibleClass] = useState(
     "search_visible_body h-100 w-100"
   );
+  const [searchBarClass, setSearchBarClass] = useState(
+    "search_bar_visible pos_abs fcc w-100"
+  );
   const [isScrolling, setIsScrolling] = useState(false);
 
   // destructuring object based states
@@ -74,19 +77,23 @@ function App() {
 
   // const scrollHandler
   const scrollHandler = () => {
-    if (window.scrollY === 0) {
+    if (window.scrollY === 0 && isScrolling) {
       setIsScrolling(() => false);
-    } else if (window.scrollY !== 0) {
+    } else if (window.scrollY !== 0 && !isScrolling) {
       setIsScrolling(() => true);
       if (isSearchBarVisible) {
-        // setIsSearchBarVisible(() => false);
+        setIsSearchBarVisible(() => false);
+        setSearchBarVisibleClass(() => "search_hidden_body h-100 w-100");
+        setSearchBarClass(() => {
+          return "search_bar_hidden pos_abs fcc w-100";
+        });
       }
     }
   };
 
   // hide searchbar onScroll
   useEffect(() => {
-    window.addEventListener("scroll", scrollHandler);
+    window.addEventListener("scroll", scrollHandler(window.scrollY));
 
     return () => {
       window.removeEventListener("scroll", scrollHandler);
@@ -210,6 +217,8 @@ function App() {
               setIsSearchBarVisible,
               searchBarVisibleClass,
               setSearchBarVisibleClass,
+              searchBarClass,
+              setSearchBarClass,
             }}
           >
             <div className="App-header">
@@ -277,7 +286,6 @@ function App() {
           </searchBarContext.Provider>
         </userContext.Provider>
       </locationContext.Provider>
-      <button>sdfghjk</button>
     </div>
   );
 }

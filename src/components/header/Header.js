@@ -8,15 +8,14 @@ import { searchBarContext } from "../../App";
 
 const Header = ({ headerPosTop, drawerClickHandler }) => {
   // managing local state
-  const [searchBarClass, setSearchBarClass] = useState(
-    "search_bar_visible pos_abs fcc w-100"
-  );
 
   // destructuring imported context
   const {
     isSearchBarVisible,
     setIsSearchBarVisible,
     setSearchBarVisibleClass,
+    searchBarClass,
+    setSearchBarClass,
   } = useContext(searchBarContext);
 
   // toggleSearchBarVisiblity
