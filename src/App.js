@@ -62,43 +62,53 @@ function App() {
       ? localStorage.getItem("long")
       : undefined,
   });
-  const [isSearchBarVisible, setIsSearchBarVisible] = useState(true);
+  const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
   const [searchBarVisibleClass, setSearchBarVisibleClass] = useState(
-    "search_visible_body h-100 w-100"
+    "search_hidden_body h-100 w-100"
   );
   const [searchBarClass, setSearchBarClass] = useState(
-    "search_bar_visible pos_abs fcc w-100"
+    "search_bar_hidden pos_abs fcc w-100"
   );
-  const [isScrolling, setIsScrolling] = useState(false);
+  const [scrollingDown, setScrollingDown] = useState(true);
 
   // destructuring object based states
   const { isLoggedIn, userName, accessToken } = user;
   const { address, lat, long } = location;
 
-  // const scrollHandler
-  const scrollHandler = () => {
-    if (window.scrollY === 0 && isScrolling) {
-      setIsScrolling(() => false);
-    } else if (window.scrollY !== 0 && !isScrolling) {
-      setIsScrolling(() => true);
-      if (isSearchBarVisible) {
-        setIsSearchBarVisible(() => false);
-        setSearchBarVisibleClass(() => "search_hidden_body h-100 w-100");
-        setSearchBarClass(() => {
-          return "search_bar_hidden pos_abs fcc w-100";
-        });
-      }
-    }
-  };
-
   // hide searchbar onScroll
   useEffect(() => {
-    window.addEventListener("scroll", scrollHandler(window.scrollY));
+    const threshold = 0;
+    let lastScrollY = window.pageYOffset;
+    let ticking = false;
 
-    return () => {
-      window.removeEventListener("scroll", scrollHandler);
+    const updateScrollDir = () => {
+      const scrollY = window.pageYOffset;
+
+      if (Math.abs(scrollY - lastScrollY) < threshold) {
+        ticking = false;
+        return;
+      }
+      setScrollingDown(scrollY > lastScrollY ? () => true : () => false);
+      lastScrollY = scrollY > 0 ? scrollY : 0;
+      ticking = false;
     };
-  }, [isScrolling]);
+
+    const onScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(updateScrollDir);
+        ticking = true;
+      }
+      if (isSearchBarVisible && scrollingDown) {
+        setIsSearchBarVisible(() => false);
+        setSearchBarVisibleClass(() => "search_hidden_body h-100 w-100");
+        setSearchBarClass(() => "search_bar_hidden pos_abs fcc w-100");
+      }
+    };
+
+    window.addEventListener("scroll", onScroll);
+
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [scrollingDown]);
 
   // drawerClickHandler
   const drawerClickHandler = () => {

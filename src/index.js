@@ -8,6 +8,7 @@ import * as serviceWorker from "./serviceWorker";
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      {/* {window.scrollTo(0, 0)} */}
       <App />
     </BrowserRouter>
   </React.StrictMode>,
