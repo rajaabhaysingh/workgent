@@ -5,16 +5,15 @@ import { locationContext } from "../../../App";
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import PlacesAutocomplete from "react-places-autocomplete";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useToasts } from "react-toast-notifications";
 
 const API_KEY = "AIzaSyDEoiDfpQW73648IFxcQUNIupKCOJKf6IQ";
 
 const LocationAutoComplete = () => {
+  const { addToast } = useToasts();
+
   // local state management
-  const [addressPlaceholder, setAddressPlaceholder] = useState(
-    "Enter location"
-  );
+  const [addressPlaceholder, setAddressPlaceholder] = useState("Location");
 
   // using imported context
   const { address, lat, long, location, setLocation } = useContext(
@@ -23,10 +22,10 @@ const LocationAutoComplete = () => {
 
   // Log error status and clear dropdown when Google Maps API returns an error.
   const onError = useCallback((status, clearSuggestions) => {
-    handleToast(
-      "Google Maps API returned error with status: " + status,
-      "error"
-    );
+    addToast("Google Maps API returned error with status: " + status, {
+      appearance: "error",
+      autoDismiss: true,
+    });
     clearSuggestions();
   }, []);
 
@@ -77,6 +76,14 @@ const LocationAutoComplete = () => {
   // ---------LOCATION SEARCH BLOCK STARTS HERE--------
   const getLocation = () => {
     if (navigator.geolocation) {
+      if (address) {
+        setLocation(() => {
+          return {
+            ...location,
+            address: "",
+          };
+        });
+      }
       setAddressPlaceholder(() => {
         return "Locating...";
       });
@@ -129,10 +136,17 @@ const LocationAutoComplete = () => {
             address: currentLocation,
           };
         });
-        handleToast(currentLocation, "dark");
+        setAddressPlaceholder(() => "Location");
+        addToast(currentLocation, {
+          appearance: "success",
+          autoDismiss: true,
+        });
       })
       .catch((error) => {
-        handleToast(error, "error");
+        addToast(error, {
+          appearance: "error",
+          autoDismiss: true,
+        });
       })
       .finally();
   };
@@ -164,29 +178,18 @@ const LocationAutoComplete = () => {
     setAddressPlaceholder(() => {
       return "Couldn't locate...";
     });
-    handleToast(errMsg, "error");
-  };
-
-  const handleToast = (message, toastType) => {
-    if (toastType === "dark") {
-      toast.dark(message, {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
-    } else if (toastType === "error") {
-      toast.error(message, {
-        position: toast.POSITION.BOTTOM_CENTER,
-      });
-    } else {
-      toast(message);
-    }
+    addToast(errMsg, {
+      appearance: "error",
+      autoDismiss: true,
+    });
   };
 
   // ----------LOCATION SEARCH BLOCK ENDS HERE---------
   // --------------------------------------------------
 
   return (
-    <div className="fcc pos_rel">
-      <i className="fas fa-map-marker-alt"></i>
+    <div className="fcc pos_rel f1">
+      <i className="fas fa-map-marker-alt search_bar_icon mar_l-8 mar_r-8"></i>
       <PlacesAutocomplete
         value={address}
         onChange={handleChange}
@@ -195,23 +198,23 @@ const LocationAutoComplete = () => {
         searchOptions={searchOptions}
       >
         {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-          <div className="fccc pos_rel">
+          <div className="fccc pos_rel f1">
             <input
               {...getInputProps({
                 placeholder: addressPlaceholder,
-                className: "inp_pri",
+                className: "search_bar_input",
                 autoFocus: false,
                 required: true,
               })}
             />
-            <div className="pos_abs-0-0-r">
+            <div className="search_result add_sugestion_box">
               {loading && (
-                <div className="fss fcc">
+                <div className="fsm pad-8">
                   Loading... <i className="fas fa-circle-notch fa-spin"></i>
                 </div>
               )}
               {suggestions.map((suggestion) => {
-                const className = "fss fcc";
+                const className = "fsm active_menu_opt";
                 return (
                   <div
                     key={suggestion.id}
@@ -219,7 +222,9 @@ const LocationAutoComplete = () => {
                       className,
                     })}
                   >
-                    <div className="">{suggestion.description}</div>
+                    <div className="pad_l-16 pad_r-16 pad_b-8 pad_t-8 menu_options cur">
+                      {suggestion.description}
+                    </div>
                   </div>
                 );
               })}
@@ -229,13 +234,12 @@ const LocationAutoComplete = () => {
       </PlacesAutocomplete>
       {/* location utility btn */}
       <button
-        className="btn pos_abs-0-0-r"
+        className="btn fccc input_assist_btn search_bar_btn_pos cur"
         onClick={getLocation}
         type={"button"}
       >
         <i className="fas fa-crosshairs"></i>
       </button>
-      <ToastContainer />
     </div>
   );
 };

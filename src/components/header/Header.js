@@ -64,6 +64,9 @@ const Header = ({ headerPosTop, drawerClickHandler }) => {
           >
             <i className="fas fa-search"></i>
           </button>
+          <button className="opt_btn foc_opt_btn bg_trans btn cur fcc round-complete fsl fc_white">
+            <i className="fas fa-language"></i>
+          </button>
           <button className=" opt_btn foc_opt_btn bg_trans btn cur fcc round-complete fsl fc_white">
             <i className="fas fa-ellipsis-v"></i>
           </button>

@@ -7,8 +7,8 @@ import React, {
   createContext,
   useEffect,
 } from "react";
-import "./App.css";
 
+import "./App.css";
 import "./styles/styles.css";
 import "./styles/margins.css";
 import "./styles/paddings.css";
@@ -69,7 +69,7 @@ function App() {
   const [searchBarClass, setSearchBarClass] = useState(
     "search_bar_hidden pos_abs fcc w-100"
   );
-  const [scrollingDown, setScrollingDown] = useState(true);
+  const [scrollingDown, setScrollingDown] = useState(false);
 
   // destructuring object based states
   const { isLoggedIn, userName, accessToken } = user;

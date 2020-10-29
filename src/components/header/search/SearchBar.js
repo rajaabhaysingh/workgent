@@ -11,11 +11,14 @@ const SearchBar = () => {
   };
 
   return (
-    <div className="search_bar h-100 w-100 fjustc fend">
-      <form onSubmit={performQuery} className="fc">
+    <div className="search_bar h-100 w-100 fjustc fend pos_rel">
+      <form onSubmit={performQuery} className="fc search_bar_form w-100">
         <SuggestionAutocomplete />
         <LocationAutoComplete />
-        <button type={"submit"}>
+        <button
+          type={"submit"}
+          className="mar_l-8 mar_r-8 btn fcc search_bar_btn cur"
+        >
           <i className="fas fa-search"></i>
         </button>
       </form>
