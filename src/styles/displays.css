@@ -51,3 +51,26 @@
   display: flex;
   flex: 1;
 }
+
+/*for screen size larger or equal to 768px*/
+@media screen and (min-width: 768px) {
+  .f_lrtb {
+    display: flex;
+  }
+}
+
+/*for screen size greater or equal to 375px less than  768px*/
+@media screen and (min-width: 375px) and (max-width: 767px) {
+  .f_lrtb {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/*for screen size less than 375px*/
+@media screen and (max-width: 374px) {
+  .f_lrtb {
+    display: flex;
+    flex-direction: column;
+  }
+}

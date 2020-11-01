@@ -29,6 +29,9 @@ import routes from "./routes";
 import SideDrawer from "./components/header/sideDrawer/SideDrawer";
 import BackdropDark from "./components/layouts/backdrops/BackdropDark";
 
+// Global context provider
+import { GlobalProvider } from "./contexts/Provider";
+
 const TopMessage = lazy(() => import("./components/header/TopMessage"));
 const Header = lazy(() => import("./components/header/Header"));
 
@@ -62,12 +65,16 @@ function App() {
       ? localStorage.getItem("long")
       : undefined,
   });
-  const [isSearchBarVisible, setIsSearchBarVisible] = useState(false);
+  const [isSearchBarVisible, setIsSearchBarVisible] = useState(true);
   const [searchBarVisibleClass, setSearchBarVisibleClass] = useState(
-    "search_hidden_body h-100 w-100"
+    isSearchBarVisible
+      ? "search_visible_body h-100 w-100"
+      : "search_hidden_body h-100 w-100"
   );
   const [searchBarClass, setSearchBarClass] = useState(
-    "search_bar_hidden pos_abs fcc w-100"
+    isSearchBarVisible
+      ? "search_bar_visible pos_abs fcc w-100"
+      : "search_bar_hidden pos_abs fcc w-100"
   );
   const [scrollingDown, setScrollingDown] = useState(false);
 
@@ -77,7 +84,7 @@ function App() {
 
   // hide searchbar onScroll
   useEffect(() => {
-    const threshold = 0;
+    const threshold = 50;
     let lastScrollY = window.pageYOffset;
     let ticking = false;
 
@@ -204,37 +211,38 @@ function App() {
 
   return (
     <div className="App">
-      <locationContext.Provider
-        value={{
-          address,
-          lat,
-          long,
-          location,
-          setLocation,
-        }}
-      >
-        <userContext.Provider
+      <GlobalProvider>
+        <locationContext.Provider
           value={{
-            isLoggedIn,
-            userName,
-            accessToken,
-            setUser,
+            address,
+            lat,
+            long,
+            location,
+            setLocation,
           }}
         >
-          <searchBarContext.Provider
+          <userContext.Provider
             value={{
-              isSearchBarVisible,
-              setIsSearchBarVisible,
-              searchBarVisibleClass,
-              setSearchBarVisibleClass,
-              searchBarClass,
-              setSearchBarClass,
+              isLoggedIn,
+              userName,
+              accessToken,
+              setUser,
             }}
           >
-            <div className="App-header">
-              <ErrorBoundary>
-                <Suspense fallback={<Fallback />}>
-                  {/* <LoadingBar
+            <searchBarContext.Provider
+              value={{
+                isSearchBarVisible,
+                setIsSearchBarVisible,
+                searchBarVisibleClass,
+                setSearchBarVisibleClass,
+                searchBarClass,
+                setSearchBarClass,
+              }}
+            >
+              <div className="App-header">
+                <ErrorBoundary>
+                  <Suspense fallback={<Fallback />}>
+                    {/* <LoadingBar
               className="w-100 bg_pink_grad"
               shadow={false}
               color={"#e52e71"}
@@ -242,60 +250,61 @@ function App() {
               progress={progress}
               onLoaderFinished={() => setProgress(0)}
             /> */}
-                  {isTopMsgVisible && (
-                    <TopMessage
-                      isTopMsgVisible={isTopMsgVisible}
-                      setIsTopMsgVisible={setIsTopMsgVisible}
-                      setHeaderPosTop={setHeaderPosTop}
-                      setBodyMarginTop={setBodyMarginTop}
+                    {isTopMsgVisible && (
+                      <TopMessage
+                        isTopMsgVisible={isTopMsgVisible}
+                        setIsTopMsgVisible={setIsTopMsgVisible}
+                        setHeaderPosTop={setHeaderPosTop}
+                        setBodyMarginTop={setBodyMarginTop}
+                      />
+                    )}
+                    <Header
+                      headerPosTop={headerPosTop}
+                      drawerClickHandler={drawerClickHandler}
                     />
-                  )}
-                  <Header
-                    headerPosTop={headerPosTop}
-                    drawerClickHandler={drawerClickHandler}
-                  />
-                  <div
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                  >
-                    <SideDrawer
-                      sideDrawerRef={sideDrawerRef}
-                      isDrawerOpen={isDrawerOpen}
-                      setIsDrawerOpen={setIsDrawerOpen}
-                    />
-                    {backDropDark}
-                  </div>
-                </Suspense>
-              </ErrorBoundary>
-            </div>
-            <div style={{ marginTop: bodyMarginTop }} className="App-body">
-              <div className={searchBarVisibleClass}>
-                <ErrorBoundary>
-                  <Suspense fallback={<Fallback />}>
-                    <Switch>
-                      {routes.map((route, index) => (
-                        <Route
-                          path={route.path}
-                          key={index}
-                          exact={route.exact ? true : false}
-                          strict={route.strict ? true : false}
-                          render={(props) => <route.component {...props} />}
-                        ></Route>
-                      ))}
-                      <Route>
-                        <h1>
-                          <code>Error 404, page not found.</code>
-                        </h1>
-                      </Route>
-                    </Switch>
+                    <div
+                      onTouchStart={handleTouchStart}
+                      onTouchMove={handleTouchMove}
+                      onTouchEnd={handleTouchEnd}
+                    >
+                      <SideDrawer
+                        sideDrawerRef={sideDrawerRef}
+                        isDrawerOpen={isDrawerOpen}
+                        setIsDrawerOpen={setIsDrawerOpen}
+                      />
+                      {backDropDark}
+                    </div>
                   </Suspense>
                 </ErrorBoundary>
               </div>
-            </div>
-          </searchBarContext.Provider>
-        </userContext.Provider>
-      </locationContext.Provider>
+              <div style={{ marginTop: bodyMarginTop }} className="App-body">
+                <div className={searchBarVisibleClass}>
+                  <ErrorBoundary>
+                    <Suspense fallback={<Fallback />}>
+                      <Switch>
+                        {routes.map((route, index) => (
+                          <Route
+                            path={route.path}
+                            key={index}
+                            exact={route.exact ? true : false}
+                            strict={route.strict ? true : false}
+                            render={(props) => <route.component {...props} />}
+                          ></Route>
+                        ))}
+                        <Route>
+                          <h1>
+                            <code>Error 404, page not found.</code>
+                          </h1>
+                        </Route>
+                      </Switch>
+                    </Suspense>
+                  </ErrorBoundary>
+                </div>
+              </div>
+            </searchBarContext.Provider>
+          </userContext.Provider>
+        </locationContext.Provider>
+      </GlobalProvider>
     </div>
   );
 }

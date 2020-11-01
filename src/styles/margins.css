@@ -130,6 +130,7 @@
 
 /*for screen size larger or equal to 768px*/
 @media screen and (min-width: 768px) {
+  /* top */
   .m_r_t-4 {
     margin-top: 4px;
   }
@@ -157,10 +158,16 @@
   .m_r_t--40 {
     margin-top: -40px;
   }
+
+  /* left */
+  .m_r_l-16 {
+    margin-left: 16px;
+  }
 }
 
 /*for screen size greater or equal to 375px less than  768px*/
 @media screen and (min-width: 375px) and (max-width: 767px) {
+  /* top */
   .m_r_t-4 {
     margin-top: 3px;
   }
@@ -187,6 +194,11 @@
   }
   .m_r_t--40 {
     margin-top: -30px;
+  }
+
+  /* left */
+  .m_r_l-16 {
+    margin-left: 12px;
   }
 }
 
@@ -219,5 +231,10 @@
   }
   .m_r_t--40 {
     margin-top: -20px;
+  }
+
+  /* left */
+  .m_r_l-16 {
+    margin-left: 8px;
   }
 }

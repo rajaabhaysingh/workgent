@@ -3,10 +3,11 @@ import React, { useState, useContext, useEffect } from "react";
 import { useHistory, Link } from "react-router-dom";
 
 // importing contexts
-import { userContext, searchBarContext } from "../../../App";
+import { searchBarContext } from "../../../App";
+import { GlobalContext } from "../../../contexts/Provider";
 
 // importing utilities functions
-import { LoginUser, getUrlParams } from "../../../Utilities";
+import { getUrlParams } from "../../../Utilities";
 
 const Login = () => {
   let history = useHistory();
@@ -19,13 +20,19 @@ const Login = () => {
   const [pwdVisible, setPwdVisible] = useState(false);
 
   // using imported context
-  const { user, setUser } = useContext(userContext);
   const {
     isSearchBarVisible,
     setIsSearchBarVisible,
     setSearchBarVisibleClass,
     setSearchBarClass,
   } = useContext(searchBarContext);
+
+  const {
+    authDispatch,
+    authState: {
+      auth: { loading, error, data },
+    },
+  } = useContext(GlobalContext);
 
   // hiding search bar by default
   useEffect(() => {
@@ -36,52 +43,9 @@ const Login = () => {
     }
   }, []);
 
-  // if a user visits login-page he/she must be logged out first
-  useEffect(() => {
-    // removing login info from local storage
-    localStorage.removeItem("isCurrentlyLoggedIn");
-    localStorage.removeItem("username");
-
-    // logging out locally too
-    setUser(() => {
-      return {
-        ...user,
-        isLoggedIn: false,
-        userName: undefined,
-        accessToken: undefined,
-      };
-    });
-  }, [setUser]);
-
   // handleLogIn
-  // returns True if login was successful otherwise False
   const handleLogIn = async () => {
-    // calling LoginUser imported from Utilities
-    const loginData = await LoginUser(username, password);
-
-    if (loginData.status === 200) {
-      // add login info to local storage
-      localStorage.setItem("isCurrentlyLoggedIn", true);
-      localStorage.setItem("username", username);
-
-      // log in user locally too
-      setUser(() => {
-        return {
-          isLoggedIn: true,
-          userName: username,
-          accessToken: loginData.data.access,
-        };
-      });
-
-      console.log("Login successful: ", loginData);
-      setUsername("");
-      setPassword("");
-      return true;
-    } else {
-      console.log("Couldn't log in: ", loginData);
-      setPassword("");
-      return false;
-    }
+    return;
   };
 
   // renderViewPwdBtn
@@ -137,6 +101,8 @@ const Login = () => {
     }
   };
 
+  console.log(data.data);
+
   return (
     <div className="fccc h-100 w-100">
       <div className="fcc fsxl h-80 w-80 bg_pink_grad fc_white round-complete shadow_0-0-6-light z-10">
@@ -148,7 +114,7 @@ const Login = () => {
       >
         <div className="fsxl fwb m_r_t-32">Sign in</div>
         <div className="m_r_t-16 fss fwb">
-          Use your workgent account to login.
+          Use your workgent account to login, {data?.data.username}
         </div>
         <div className="fsxs m_r_t-32 w-100">E-mail/Mobile number:</div>
         <input
