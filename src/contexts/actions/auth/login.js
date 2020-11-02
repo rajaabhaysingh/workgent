@@ -1,33 +1,31 @@
 import axiosInstance from "../../../helpers/axios";
 
 import {
-  REGISTER_LOADING,
-  REGISTER_SUCCESS,
-  REGISTER_ERROR,
+  LOGIN_LOADING,
+  LOGIN_SUCCESS,
+  LOGIN_ERROR,
 } from "../../../constants/actionTypes";
 
-export const register = ({ username, username: email, password }) => (
-  dispatch
-) => {
+export const login = ({ username, password }) => (dispatch) => {
   dispatch({
-    type: REGISTER_LOADING,
+    type: LOGIN_LOADING,
   });
 
   axiosInstance
-    .post("auth/register/", {
+    .post("auth/login/", {
       username,
-      email,
       password,
     })
     .then((response) => {
+      localStorage.tokens = response.data.tokens;
       dispatch({
-        type: REGISTER_SUCCESS,
+        type: LOGIN_SUCCESS,
         payload: response.data,
       });
     })
     .catch((error) => {
       dispatch({
-        type: REGISTER_ERROR,
+        type: LOGIN_ERROR,
         payload: error.response ? error.response.data : "COULD NOT CONNECT",
       });
     });

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 // importing contexts
 import { searchBarContext } from "../../../App";
 
-const Register = ({
+const RegisterUI = ({
   formHook: { onChange, form, submitForm, loading, fieldErrors },
 }) => {
   // local state management
@@ -59,24 +59,28 @@ const Register = ({
     const email_regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     // validate email - frontend
-    if (form.username) {
+    if (form?.username) {
       if (!email_regex.test(String(form.username).toLowerCase())) {
         setIsUsernameError(() => true);
+        return;
       } else {
         setIsUsernameError(() => false);
       }
     } else {
       setIsUsernameError(() => true);
+      return;
     }
 
     // validate password - frontend
-    if (form.password) {
+    if (form?.password) {
       if (form.password.length < 8) {
         setPwdErrorMsg(() => "Password must be at least 8 characters long.");
         setIsPwdError(() => true);
+        return;
       } else if (form.password !== form.cnfPassword) {
         setPwdErrorMsg(() => "Your password didn't match.");
         setIsPwdError(() => true);
+        return;
       } else {
         setIsPwdError(() => false);
         // proceed to signup
@@ -85,6 +89,7 @@ const Register = ({
     } else {
       setPwdErrorMsg(() => "Password must be at least 8 characters long.");
       setIsPwdError(() => true);
+      return;
     }
   };
 
@@ -251,4 +256,4 @@ const Register = ({
   );
 };
 
-export default Register;
+export default RegisterUI;

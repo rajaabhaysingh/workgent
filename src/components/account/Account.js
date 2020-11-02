@@ -1,7 +1,15 @@
-import React from "react";
-import "../../styles/styles.css";
+import React, { useEffect, useContext } from "react";
+import getMyJobs from "../../contexts/actions/jobs/getMyJobs";
+
+import { GlobalContext } from "../../contexts/Provider";
 
 const Account = () => {
+  const context = useContext(GlobalContext);
+
+  useEffect(() => {
+    getMyJobs();
+  }, []);
+
   return <div>This is account.</div>;
 };
 

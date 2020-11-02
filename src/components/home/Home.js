@@ -21,8 +21,6 @@ const Home = () => {
 
   const context = useContext(GlobalContext);
 
-  console.log(context);
-
   // hiding search bar by default
   useEffect(() => {
     if (!isSearchBarVisible) {

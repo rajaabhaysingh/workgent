@@ -14,15 +14,15 @@ import "./styles/margins.css";
 import "./styles/paddings.css";
 import "./styles/displays.css";
 
-// import LoadingBar from "react-top-loading-bar";
 import PropTypes from "prop-types";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
+import { useToasts } from "react-toast-notifications";
 
 import ErrorBoundary from "./components/errorBoundary/ErrorBoundary";
 import Fallback from "./components/errorBoundary/Fallback";
+import isAuthenticated from "./utils/isAuthenticated";
 
 // importing utilities functions and routes
-import { RefreshAccessToken } from "./Utilities";
 import routes from "./routes";
 
 // components imports
@@ -40,8 +40,32 @@ export const userContext = createContext();
 export const locationContext = createContext();
 export const searchBarContext = createContext();
 
+// RenderRoute (helper for app component)
+const RenderRoute = (route) => {
+  const history = useHistory();
+  const { addToast } = useToasts();
+
+  // checks whether route needs authentication or not
+  if (route.needsAuth && !isAuthenticated()) {
+    const url = "/login" + "?destination=" + route.path;
+    history.push(url);
+    addToast("Please login before continuing.", {
+      appearance: "info",
+      autoDismiss: true,
+    });
+  }
+  return (
+    <Route
+      path={route.path}
+      exact={route.exact ? true : false}
+      strict={route.strict ? true : false}
+      render={(props) => <route.component {...props} />}
+    ></Route>
+  );
+};
+
 function App() {
-  // state management
+  // local state management
   const [isTopMsgVisible, setIsTopMsgVisible] = useState(true);
   const [headerPosTop, setHeaderPosTop] = useState("26px");
   const [bodyMarginTop, setBodyMarginTop] = useState("74px");
@@ -84,7 +108,7 @@ function App() {
 
   // hide searchbar onScroll
   useEffect(() => {
-    const threshold = 50;
+    const threshold = 20;
     let lastScrollY = window.pageYOffset;
     let ticking = false;
 
@@ -283,13 +307,7 @@ function App() {
                     <Suspense fallback={<Fallback />}>
                       <Switch>
                         {routes.map((route, index) => (
-                          <Route
-                            path={route.path}
-                            key={index}
-                            exact={route.exact ? true : false}
-                            strict={route.strict ? true : false}
-                            render={(props) => <route.component {...props} />}
-                          ></Route>
+                          <RenderRoute {...route} key={index} />
                         ))}
                         <Route>
                           <h1>
