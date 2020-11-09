@@ -1,13 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-import { useHistory, Link } from "react-router-dom";
-
-// importing utilities functions
-import { getUrlParams } from "../../../Utilities";
+import { Link } from "react-router-dom";
 
 const Login = ({ formHook: { onChange, form, submitForm, loading, data } }) => {
-  let history = useHistory();
-
   // local state management
   const [isUsernameError, setIsUsernameError] = useState(false);
   const [isPasswordError, setIsPasswordError] = useState(false);
@@ -46,23 +41,6 @@ const Login = ({ formHook: { onChange, form, submitForm, loading, data } }) => {
     // final submit form - received from formHook
     submitForm();
   };
-
-  // on successful login redirects to destination if present else to homepage
-  useEffect(() => {
-    if (data) {
-      if (data.username && data.tokens) {
-        // get url params to login and redirect back
-        const params = getUrlParams(window.location.search);
-
-        if (params.destination) {
-          //   redirect to destination
-          history.push(params.destination);
-        } else {
-          history.push("/");
-        }
-      }
-    }
-  }, [data]);
 
   // renderViewPwdBtn
   const renderViewPwdBtn = () => {

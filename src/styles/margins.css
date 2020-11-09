@@ -1,4 +1,7 @@
-/* margin - auto */
+/* margin */
+.mar-0 {
+  margin: 0;
+}
 .mar_l-auto {
   margin-left: auto;
 }
@@ -27,6 +30,9 @@
 }
 .mar_l-8 {
   margin-left: 8px;
+}
+.mar_l-6 {
+  margin-left: 6px;
 }
 .mar_l-12 {
   margin-left: 12px;
@@ -59,6 +65,9 @@
 }
 .mar_r-16 {
   margin-right: 16px;
+}
+.mar_r-20 {
+  margin-right: 20px;
 }
 .mar_r-24 {
   margin-right: 24px;
@@ -162,9 +171,12 @@
     margin-top: -40px;
   }
 
-  /* left */
+  /* left - right */
   .m_r_l-16 {
     margin-left: 16px;
+  }
+  .m_r_r-16 {
+    margin-right: 16px;
   }
 }
 
@@ -199,9 +211,17 @@
     margin-top: -30px;
   }
 
-  /* left */
+  /* left - right */
   .m_r_l-16 {
     margin-left: 12px;
+  }
+  .m_r_r-16 {
+    margin-right: 12px;
+  }
+
+  /* misc */
+  .mob_mar_t-32 {
+    margin-top: 32px;
   }
 }
 
@@ -236,8 +256,16 @@
     margin-top: -20px;
   }
 
-  /* left */
+  /* left - right*/
   .m_r_l-16 {
     margin-left: 8px;
+  }
+  .m_r_r-16 {
+    margin-right: 8px;
+  }
+
+  /* misc */
+  .mob_mar_t-32 {
+    margin-top: 32px;
   }
 }

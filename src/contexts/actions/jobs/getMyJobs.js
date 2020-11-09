@@ -1,12 +1,30 @@
-import axiosInstance from "../../../helpers/axios";
+import axiosInstance from "../../../helpers/axiosInstance";
 
-export default () => {
-  axiosInstance
+import {
+  MY_JOBS_ERROR,
+  MY_JOBS_LOADING,
+  MY_JOBS_SUCCESS,
+} from "../../../constants/actionTypes";
+import { CONNECTION_ERROR } from "../../../constants/api";
+
+export default (history) => (dispatch) => {
+  // dispatching loading first
+  dispatch({
+    type: MY_JOBS_LOADING,
+  });
+
+  axiosInstance(history)
     .get("/jobs/my/")
     .then((response) => {
-      console.log(response);
+      dispatch({
+        type: MY_JOBS_SUCCESS,
+        payload: response.data,
+      });
     })
     .catch((error) => {
-      console.log(error);
+      dispatch({
+        type: MY_JOBS_ERROR,
+        payload: error.response ? error.response.data : CONNECTION_ERROR,
+      });
     });
 };

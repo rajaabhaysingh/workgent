@@ -1,4 +1,4 @@
-import axiosInstance from "../../../helpers/axios";
+import axiosInstance from "../../../helpers/axiosInstance";
 
 import {
   REGISTER_LOADING,
@@ -13,7 +13,7 @@ export const register = ({ username, username: email, password }) => (
     type: REGISTER_LOADING,
   });
 
-  axiosInstance
+  axiosInstance()
     .post("auth/register/", {
       username,
       email,
@@ -26,6 +26,7 @@ export const register = ({ username, username: email, password }) => (
       });
     })
     .catch((error) => {
+      alert(error.toString() + ", Error code: coacau-re");
       dispatch({
         type: REGISTER_ERROR,
         payload: error.response ? error.response.data : "COULD NOT CONNECT",

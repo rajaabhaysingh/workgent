@@ -16,9 +16,8 @@ const auth = (state, { payload, type }) => {
         ...state,
         auth: {
           ...state.auth,
-          error: null,
+          error: false,
           loading: true,
-          data: null,
         },
       };
 
@@ -42,7 +41,6 @@ const auth = (state, { payload, type }) => {
           ...state.auth,
           loading: false,
           error: payload,
-          data: null,
         },
       };
 

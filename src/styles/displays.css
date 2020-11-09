@@ -54,8 +54,15 @@
 
 /*for screen size larger or equal to 768px*/
 @media screen and (min-width: 768px) {
-  .f_lrtb {
+  .f_lrtb,
+  .f_lrtb-notab {
     display: flex;
+  }
+  .pc_space_bw {
+    justify-content: space-between;
+  }
+  .pc_align_cent {
+    align-items: center;
   }
 }
 
@@ -65,11 +72,15 @@
     display: flex;
     flex-direction: column;
   }
+  .f_lrtb-notab {
+    display: flex;
+  }
 }
 
 /*for screen size less than 375px*/
 @media screen and (max-width: 374px) {
-  .f_lrtb {
+  .f_lrtb,
+  .f_lrtb-notab {
     display: flex;
     flex-direction: column;
   }

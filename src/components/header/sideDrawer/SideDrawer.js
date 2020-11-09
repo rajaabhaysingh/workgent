@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 
 import { NavLink, useHistory } from "react-router-dom";
-import { userContext } from "../../../App";
 
 import * as Colors from "../../../constants/Colors";
 import headerLogo from "../../../res/header/logo_72x72.png";
@@ -9,9 +8,6 @@ import headerLogo from "../../../res/header/logo_72x72.png";
 const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
   // initilizing useHistory and useRouteMatch
   const history = useHistory();
-
-  // using imported context
-  const { isLoggedIn, userName, user, setUser } = useContext(userContext);
 
   // handling drawer classes open/close
   let drawerClasses = "fcol bg_white side_drawer";
@@ -27,17 +23,11 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
   // logOutUser
   const logOutUser = () => {
     // removing login info from local storage
-    localStorage.removeItem("isCurrentlyLoggedIn");
+    localStorage.removeItem("tokens");
     localStorage.removeItem("username");
 
     // logging out locally too
-    setUser(() => {
-      return {
-        isLoggedIn: false,
-        userName: undefined,
-        accessToken: undefined,
-      };
-    });
+    // ---
     // closeDrawer();
   };
 
@@ -50,13 +40,13 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
 
   // renderIsLoggedIn
   const renderIsLoggedIn = () => {
-    if (isLoggedIn && userName) {
+    if (localStorage.tokens && localStorage.username) {
       return (
         <>
           <div className="fcol mar_l-16 mar_t-12 mar_b-12 of-scr sb-hid">
             <div className="fc_8a fsxs">Logged in as:</div>
             <div className="fsxs no_wrap of-scr fc_5c mar_t-4 fwb">
-              {userName}
+              {localStorage.username}
             </div>
           </div>
           <button
@@ -119,7 +109,7 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
           activeClassName="fwb fc_white bg_pri"
           exact
         >
-          <i className="fas fa-home mar_l-16 mar_r-16"></i>Home
+          <i className="fas fa-home mar_l-32 mar_r-16"></i>Home
         </NavLink>
         <NavLink
           onClick={closeDrawer}
@@ -128,16 +118,15 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
           activeClassName="fwb fc_white bg_pri"
           exact
         >
-          <i className="fas fa-th mar_l-16 mar_r-16"></i>Categories
+          <i className="fas fa-th mar_l-32 mar_r-16"></i>Categories
         </NavLink>
         <NavLink
           onClick={closeDrawer}
           to="/account"
           className="sd_link_opt w-100 link fc_pri fss pad_12-0"
           activeClassName="fwb fc_white bg_pri"
-          exact
         >
-          <i className="fas fa-user mar_l-16 mar_r-16"></i>Account
+          <i className="fas fa-user mar_l-32 mar_r-16"></i>Account
         </NavLink>
       </div>
       <div
@@ -147,12 +136,36 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
       <div className="fcol pad_r-8">
         <NavLink
           onClick={closeDrawer}
-          to="/notificaion"
+          to="/messages"
           className="sd_link_opt w-100 link fc_pri fss pad_12-0"
           activeClassName="fwb fc_white bg_pri"
           exact
         >
-          <i className="fas fa-bell mar_l-16 mar_r-16"></i>Notification
+          <i className="fas fa-envelope mar_l-32 mar_r-16"></i>Messages
+        </NavLink>
+      </div>
+      <div
+        style={{ height: "1px" }}
+        className="w-100 mar_t-12 mar_b-12 bg_pri"
+      ></div>
+      <div className="fcol pad_r-8">
+        <NavLink
+          onClick={closeDrawer}
+          to="/services"
+          className="sd_link_opt w-100 link fc_pri fss pad_12-0"
+          activeClassName="fwb fc_white bg_pri"
+          exact
+        >
+          <i className="fas fa-bell mar_l-32 mar_r-16"></i>Our services
+        </NavLink>
+        <NavLink
+          onClick={closeDrawer}
+          to="/premium"
+          className="sd_link_opt w-100 link fc_pri fss pad_12-0"
+          activeClassName="fwb fc_white bg_pri"
+          exact
+        >
+          <i className="fas fa-award mar_l-32 mar_r-16"></i>Premium
         </NavLink>
         <NavLink
           onClick={closeDrawer}
@@ -161,7 +174,7 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
           activeClassName="fwb fc_white bg_pri"
           exact
         >
-          <i className="fas fa-question-circle mar_l-16 mar_r-16"></i>Help {"&"}{" "}
+          <i className="fas fa-question-circle mar_l-32 mar_r-16"></i>Help {"&"}{" "}
           FAQs
         </NavLink>
         <NavLink
@@ -171,7 +184,7 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
           activeClassName="fwb fc_white bg_pri"
           exact
         >
-          <i className="fas fa-headset mar_l-16 mar_r-16"></i>Contact Us
+          <i className="fas fa-headset mar_l-32 mar_r-16"></i>Contact Us
         </NavLink>
       </div>
     </div>

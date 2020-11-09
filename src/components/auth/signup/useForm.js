@@ -44,6 +44,8 @@ export default () => {
     }
   }, [data]);
 
+  console.log(data);
+
   const onChange = (e) => {
     setForm({
       ...form,

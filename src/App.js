@@ -15,7 +15,7 @@ import "./styles/paddings.css";
 import "./styles/displays.css";
 
 import PropTypes from "prop-types";
-import { Switch, Route, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory, Redirect } from "react-router-dom";
 import { useToasts } from "react-toast-notifications";
 
 import ErrorBoundary from "./components/errorBoundary/ErrorBoundary";
@@ -36,7 +36,6 @@ const TopMessage = lazy(() => import("./components/header/TopMessage"));
 const Header = lazy(() => import("./components/header/Header"));
 
 // creating global contexts
-export const userContext = createContext();
 export const locationContext = createContext();
 export const searchBarContext = createContext();
 
@@ -45,9 +44,12 @@ const RenderRoute = (route) => {
   const history = useHistory();
   const { addToast } = useToasts();
 
+  // setting individual title
+  document.title = route.title || "Workgent";
+
   // checks whether route needs authentication or not
   if (route.needsAuth && !isAuthenticated()) {
-    const url = "/login" + "?destination=" + route.path;
+    const url = "/login?destination=" + route.path;
     history.push(url);
     addToast("Please login before continuing.", {
       appearance: "info",
@@ -70,16 +72,6 @@ function App() {
   const [headerPosTop, setHeaderPosTop] = useState("26px");
   const [bodyMarginTop, setBodyMarginTop] = useState("74px");
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [user, setUser] = useState({
-    isLoggedIn: localStorage.getItem("isCurrentlyLoggedIn") ? true : false,
-    userName: localStorage.getItem("isCurrentlyLoggedIn")
-      ? localStorage.getItem("username")
-      : undefined,
-    // refreshToken: localStorage.getItem("refreshToken")
-    //   ? localStorage.getItem("refreshToken")
-    //   : undefined,
-    accessToken: undefined,
-  });
   const [location, setLocation] = useState({
     address: localStorage.getItem("address")
       ? localStorage.getItem("address")
@@ -103,12 +95,11 @@ function App() {
   const [scrollingDown, setScrollingDown] = useState(false);
 
   // destructuring object based states
-  const { isLoggedIn, userName, accessToken } = user;
   const { address, lat, long } = location;
 
   // hide searchbar onScroll
   useEffect(() => {
-    const threshold = 20;
+    const threshold = 8;
     let lastScrollY = window.pageYOffset;
     let ticking = false;
 
@@ -245,28 +236,20 @@ function App() {
             setLocation,
           }}
         >
-          <userContext.Provider
+          <searchBarContext.Provider
             value={{
-              isLoggedIn,
-              userName,
-              accessToken,
-              setUser,
+              isSearchBarVisible,
+              setIsSearchBarVisible,
+              searchBarVisibleClass,
+              setSearchBarVisibleClass,
+              searchBarClass,
+              setSearchBarClass,
             }}
           >
-            <searchBarContext.Provider
-              value={{
-                isSearchBarVisible,
-                setIsSearchBarVisible,
-                searchBarVisibleClass,
-                setSearchBarVisibleClass,
-                searchBarClass,
-                setSearchBarClass,
-              }}
-            >
-              <div className="App-header">
-                <ErrorBoundary>
-                  <Suspense fallback={<Fallback />}>
-                    {/* <LoadingBar
+            <div className="App-header">
+              <ErrorBoundary>
+                <Suspense fallback={<Fallback />}>
+                  {/* <LoadingBar
               className="w-100 bg_pink_grad"
               shadow={false}
               color={"#e52e71"}
@@ -274,53 +257,48 @@ function App() {
               progress={progress}
               onLoaderFinished={() => setProgress(0)}
             /> */}
-                    {isTopMsgVisible && (
-                      <TopMessage
-                        isTopMsgVisible={isTopMsgVisible}
-                        setIsTopMsgVisible={setIsTopMsgVisible}
-                        setHeaderPosTop={setHeaderPosTop}
-                        setBodyMarginTop={setBodyMarginTop}
-                      />
-                    )}
-                    <Header
-                      headerPosTop={headerPosTop}
-                      drawerClickHandler={drawerClickHandler}
+                  {isTopMsgVisible && (
+                    <TopMessage
+                      isTopMsgVisible={isTopMsgVisible}
+                      setIsTopMsgVisible={setIsTopMsgVisible}
+                      setHeaderPosTop={setHeaderPosTop}
+                      setBodyMarginTop={setBodyMarginTop}
                     />
-                    <div
-                      onTouchStart={handleTouchStart}
-                      onTouchMove={handleTouchMove}
-                      onTouchEnd={handleTouchEnd}
-                    >
-                      <SideDrawer
-                        sideDrawerRef={sideDrawerRef}
-                        isDrawerOpen={isDrawerOpen}
-                        setIsDrawerOpen={setIsDrawerOpen}
-                      />
-                      {backDropDark}
-                    </div>
+                  )}
+                  <Header
+                    headerPosTop={headerPosTop}
+                    drawerClickHandler={drawerClickHandler}
+                  />
+                  <div
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                  >
+                    <SideDrawer
+                      sideDrawerRef={sideDrawerRef}
+                      isDrawerOpen={isDrawerOpen}
+                      setIsDrawerOpen={setIsDrawerOpen}
+                    />
+                    {backDropDark}
+                  </div>
+                </Suspense>
+              </ErrorBoundary>
+            </div>
+            <div style={{ marginTop: bodyMarginTop }} className="App-body">
+              <div className={searchBarVisibleClass}>
+                <ErrorBoundary>
+                  <Suspense fallback={<Fallback />}>
+                    <Switch>
+                      {routes.map((route, index) => (
+                        <RenderRoute {...route} key={index} />
+                      ))}
+                      <Redirect to="/error_404">Page not found</Redirect>
+                    </Switch>
                   </Suspense>
                 </ErrorBoundary>
               </div>
-              <div style={{ marginTop: bodyMarginTop }} className="App-body">
-                <div className={searchBarVisibleClass}>
-                  <ErrorBoundary>
-                    <Suspense fallback={<Fallback />}>
-                      <Switch>
-                        {routes.map((route, index) => (
-                          <RenderRoute {...route} key={index} />
-                        ))}
-                        <Route>
-                          <h1>
-                            <code>Error 404, page not found.</code>
-                          </h1>
-                        </Route>
-                      </Switch>
-                    </Suspense>
-                  </ErrorBoundary>
-                </div>
-              </div>
-            </searchBarContext.Provider>
-          </userContext.Provider>
+            </div>
+          </searchBarContext.Provider>
         </locationContext.Provider>
       </GlobalProvider>
     </div>
