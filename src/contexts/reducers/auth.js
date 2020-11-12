@@ -5,7 +5,10 @@ import {
   LOGIN_LOADING,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  LOGOUT_USER,
 } from "../../constants/actionTypes";
+
+import authInitialState from "../initialStates/authInitialState";
 
 // auth reducer function
 const auth = (state, { payload, type }) => {
@@ -41,6 +44,15 @@ const auth = (state, { payload, type }) => {
           ...state.auth,
           loading: false,
           error: payload,
+        },
+      };
+
+    case LOGOUT_USER:
+      return {
+        auth: {
+          loading: false,
+          error: null,
+          data: null,
         },
       };
 

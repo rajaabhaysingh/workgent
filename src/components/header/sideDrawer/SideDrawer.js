@@ -3,11 +3,15 @@ import React, { useContext } from "react";
 import { NavLink, useHistory } from "react-router-dom";
 
 import * as Colors from "../../../constants/Colors";
+import logout from "../../../contexts/actions/auth/logout";
+import { GlobalContext } from "../../../contexts/Provider";
 import headerLogo from "../../../res/header/logo_72x72.png";
 
 const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
   // initilizing useHistory and useRouteMatch
   const history = useHistory();
+
+  const { authDispatch, myJobsDispatch } = useContext(GlobalContext);
 
   // handling drawer classes open/close
   let drawerClasses = "fcol bg_white side_drawer";
@@ -22,13 +26,8 @@ const SideDrawer = ({ sideDrawerRef, isDrawerOpen, setIsDrawerOpen }) => {
 
   // logOutUser
   const logOutUser = () => {
-    // removing login info from local storage
-    localStorage.removeItem("tokens");
-    localStorage.removeItem("username");
-
-    // logging out locally too
-    // ---
-    // closeDrawer();
+    logout(history)(authDispatch, myJobsDispatch);
+    closeDrawer();
   };
 
   // logInUser

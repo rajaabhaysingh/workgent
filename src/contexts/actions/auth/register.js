@@ -6,18 +6,20 @@ import {
   REGISTER_ERROR,
 } from "../../../constants/actionTypes";
 
-export const register = ({ username, username: email, password }) => (
-  dispatch
-) => {
+export const register = ({
+  username: email,
+  password,
+  cnfPassword: password_confirm,
+}) => (dispatch) => {
   dispatch({
     type: REGISTER_LOADING,
   });
 
   axiosInstance()
     .post("auth/register/", {
-      username,
       email,
       password,
+      password_confirm,
     })
     .then((response) => {
       dispatch({
@@ -26,7 +28,7 @@ export const register = ({ username, username: email, password }) => (
       });
     })
     .catch((error) => {
-      alert(error.toString() + ", Error code: coacau-re");
+      console.log(error.toString() + ", Error code: coacau-re");
       dispatch({
         type: REGISTER_ERROR,
         payload: error.response ? error.response.data : "COULD NOT CONNECT",

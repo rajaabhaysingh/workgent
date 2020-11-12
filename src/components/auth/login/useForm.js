@@ -24,10 +24,13 @@ export default () => {
   // check for error - backend
   useEffect(() => {
     if (error) {
-      addToast(error.detail ? error.detail : "Some error occured.", {
-        appearance: "error",
-        autoDismiss: true,
-      });
+      addToast(
+        error.detail ? error.detail : "Some error occured. Code: coaulo-uF",
+        {
+          appearance: "error",
+          autoDismiss: true,
+        }
+      );
     }
   }, [error]);
 

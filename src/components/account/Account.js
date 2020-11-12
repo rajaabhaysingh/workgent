@@ -9,7 +9,7 @@ import DashboardBase from "../layouts/dashboard/DashboardBase";
 
 const Account = () => {
   const history = useHistory();
-  const { myJobsDispatch } = useContext(GlobalContext);
+  const { myJobsDispatch, myJobsState } = useContext(GlobalContext);
 
   const {
     isSearchBarVisible,
@@ -31,7 +31,7 @@ const Account = () => {
     getMyJobs(history)(myJobsDispatch);
   }, []);
 
-  return <DashboardBase />;
+  return <DashboardBase myJobsState={myJobsState} />;
 };
 
 export default Account;

@@ -9,7 +9,7 @@ import { useToasts } from "react-toast-notifications";
 
 const API_KEY = "AIzaSyDEoiDfpQW73648IFxcQUNIupKCOJKf6IQ";
 
-const LocationAutoComplete = () => {
+const LocationAutoComplete = ({ icon, form, setForm }) => {
   const { addToast } = useToasts();
 
   // local state management
@@ -59,6 +59,14 @@ const LocationAutoComplete = () => {
         .then((latLng) => {
           localStorage.setItem("lat", latLng.lat);
           localStorage.setItem("long", latLng.lng);
+          if (form && setForm) {
+            setForm({
+              ...form,
+              lat: latLng.lat,
+              long: latLng.lng,
+              geo_add: add,
+            });
+          }
           setLocation(() => {
             return {
               address: add,
@@ -136,6 +144,14 @@ const LocationAutoComplete = () => {
             address: currentLocation,
           };
         });
+        if (form && setForm) {
+          setForm({
+            ...form,
+            lat: posX,
+            long: posY,
+            geo_add: currentLocation,
+          });
+        }
         setAddressPlaceholder(() => "Location");
         addToast(currentLocation, {
           appearance: "success",
@@ -189,7 +205,9 @@ const LocationAutoComplete = () => {
 
   return (
     <div className="fcc pos_rel f1">
-      <i className="fas fa-map-marker-alt search_bar_icon mar_l-8 mar_r-8"></i>
+      {icon && (
+        <i className="fas fa-map-marker-alt search_bar_icon mar_l-8 mar_r-8"></i>
+      )}
       <PlacesAutocomplete
         value={address}
         onChange={handleChange}

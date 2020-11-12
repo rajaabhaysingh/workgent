@@ -47,9 +47,18 @@
   align-items: center;
   justify-content: space-between;
 }
+.fc_ar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
 .f1 {
   display: flex;
   flex: 1;
+}
+.f2 {
+  display: flex;
+  flex: 2;
 }
 
 /*for screen size larger or equal to 768px*/

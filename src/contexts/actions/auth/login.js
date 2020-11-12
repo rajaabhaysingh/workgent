@@ -25,7 +25,6 @@ export const login = ({ username, password }) => (dispatch) => {
       });
     })
     .catch((error) => {
-      alert(error.toString() + " Code: coacau-lo");
       dispatch({
         type: LOGIN_ERROR,
         payload: error.response ? error.response.data : "COULD NOT CONNECT",

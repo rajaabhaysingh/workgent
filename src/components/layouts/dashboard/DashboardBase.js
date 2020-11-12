@@ -1,5 +1,11 @@
 import React, { useState, useEffect, lazy, Suspense } from "react";
-import { useRouteMatch, Switch, Route, Redirect } from "react-router-dom";
+import {
+  useRouteMatch,
+  Switch,
+  Route,
+  Redirect,
+  useHistory,
+} from "react-router-dom";
 
 import ErrorBoundary from "../../errorBoundary/ErrorBoundary";
 import DashboardDrawer from "./DashboardDrawer";
@@ -12,15 +18,16 @@ const MyCommunity = lazy(() => import("./dashboardBody/MyCommunity"));
 const Notification = lazy(() => import("./dashboardBody/Notification"));
 const Alerts = lazy(() => import("./dashboardBody/Alerts"));
 
-const DashboardBase = () => {
+const DashboardBase = ({ myJobsState }) => {
   // local state management
   const [isDashDrawerVisible, setIsDashDrawerVisible] = useState(false);
   const [dashDrawerClass, setDashDrawerClass] = useState(
-    "dash_drawer_hidden bg_ter vis-flex"
+    "dash_drawer_hidden bg_ter vis-flex h-100"
   );
   const [currentTab, setCurrentTab] = useState("Accounts");
 
   let { path } = useRouteMatch();
+  const history = useHistory();
 
   // toggleDashDrawer
   const toggleDashDrawer = () => {
@@ -35,9 +42,9 @@ const DashboardBase = () => {
   // useEffect to change dashboard drawer visiblity state
   useEffect(() => {
     if (isDashDrawerVisible) {
-      setDashDrawerClass(() => "dash_drawer_visible bg_ter vis-flex");
+      setDashDrawerClass(() => "dash_drawer_visible bg_ter vis-flex h-100");
     } else {
-      setDashDrawerClass(() => "dash_drawer_hidden bg_ter vis-flex");
+      setDashDrawerClass(() => "dash_drawer_hidden bg_ter vis-flex h-100");
     }
   }, [isDashDrawerVisible]);
 
@@ -46,12 +53,12 @@ const DashboardBase = () => {
       {/* dashboard header */}
       <div className="dash_header of-scr w-100 bg_white shadow_1-1-4-dark">
         <button
-          className="dash_header_drawer_btn bg_ter round-4 fc_white mar_l-6 pad-0 cur"
+          className="dash_header_drawer_btn bg_trans round-4 mar_l-8 pad-0 cur"
           onClick={toggleDashDrawer}
         >
-          <i className="fas h-36p fsm pad_0-12 round-4 fcc bg_ter-light fa-bars"></i>
-          <i className="fas fsl fa-chevron-right mar_l-8 mar_r-16"></i>
-          {currentTab}
+          <i className="fas h-32p w-36p fc_white fsm round-4 fcc bg_ter-light fa-bars"></i>
+          <i className="fas fsl fc_pback fa-chevron-right mar_l-8 mar_r-8"></i>
+          <span className="fsm mar_t-2">{currentTab}</span>
         </button>
         <div className="fc no_wrap"></div>
         <div className="fc">
@@ -61,7 +68,10 @@ const DashboardBase = () => {
           <button className="btn m_r_r-16 h-32p w-32p bg_err-light round-complete fc_err cur">
             <i className="fas fsm fa-envelope-open-text"></i>
           </button>
-          <button className="btn m_r_r-16 h-32p w-32p bg_pri-light round-complete fc_pri cur">
+          <button
+            onClick={() => history.push("/account/my_postings/new_post")}
+            className="btn m_r_r-16 h-32p w-32p bg_pri-light round-complete fc_pri cur"
+          >
             <i className="fas fsm fa-plus"></i>
           </button>
         </div>
@@ -82,18 +92,18 @@ const DashboardBase = () => {
           </button>
         </div>
         {/* body */}
-        <div className="dash_body">
+        <div className="dash_body h-100 of-scr">
           <ErrorBoundary>
             <Suspense fallback="Loading...">
               <Switch>
                 <Route exact strict path={path}>
-                  <Overview />
+                  <Overview myJobsState={myJobsState} />
                 </Route>
                 <Route exact path={`${path}/my_applications`}>
                   <Applications />
                 </Route>
                 <Route path={`${path}/my_postings`}>
-                  <Postings />
+                  <Postings myJobsState={myJobsState} />
                 </Route>
                 <Route exact path={`${path}/my_transactions`}>
                   <Transactions />

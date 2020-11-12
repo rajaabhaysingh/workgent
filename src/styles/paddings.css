@@ -53,6 +53,9 @@
 .pad_4-8 {
   padding: 4px 8px;
 }
+.pad_4-12 {
+  padding: 4px 12px;
+}
 .pad_8-16 {
   padding: 8px 16px;
 }
@@ -170,4 +173,34 @@
 }
 .pad_top-50 {
   padding-top: 50%;
+}
+
+/*for screen size larger or equal to 768px*/
+@media screen and (min-width: 768px) {
+  .pad_pc-32_mob-16 {
+    padding: 32px;
+  }
+  .pad_pc-16_mob-8 {
+    padding: 16px;
+  }
+}
+
+/*for screen size greater or equal to 375px less than  768px*/
+@media screen and (min-width: 375px) and (max-width: 767px) {
+  .pad_pc-32_mob-16 {
+    padding: 16px;
+  }
+  .pad_pc-16_mob-8 {
+    padding: 8px;
+  }
+}
+
+/*for screen size less than 375px*/
+@media screen and (max-width: 374px) {
+  .pad_pc-32_mob-16 {
+    padding: 16px;
+  }
+  .pad_pc-16_mob-8 {
+    padding: 8px;
+  }
 }

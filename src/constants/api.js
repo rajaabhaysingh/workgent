@@ -1,1 +1,2 @@
-export const CONNECTION_ERROR = "CONNECTION ERROR";
+export const CONNECTION_ERROR =
+  "Couldn't connect. Please check your connection and try again.";

@@ -55,7 +55,7 @@ const routes = [
     path: "/account",
     component: Account,
     title: "Workgent - Account",
-    needsAuth: false,
+    needsAuth: true,
   },
   // Search
   {

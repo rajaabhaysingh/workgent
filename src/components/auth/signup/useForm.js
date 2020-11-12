@@ -24,12 +24,17 @@ export default () => {
   // handling error responses
   useEffect(() => {
     if (error) {
-      for (let item in error.error) {
-        setFieldErrors({
-          ...fieldErrors,
-          [item]: error.error[item][0],
-        });
+      let errorObject = {};
+      for (let item in error) {
+        // todo (backend):
+        let tempItem = item;
+        if (item === "email" || item === "phone") {
+          item = "username";
+        }
+        // ------
+        errorObject[item] = error[tempItem][0];
       }
+      setFieldErrors(() => errorObject);
     }
   }, [error]);
 
@@ -43,8 +48,6 @@ export default () => {
       history.push("/login");
     }
   }, [data]);
-
-  console.log(data);
 
   const onChange = (e) => {
     setForm({

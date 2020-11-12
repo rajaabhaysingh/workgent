@@ -49,7 +49,6 @@ const TopMessage = ({
       let response = await axios.get(
         baseUrl + "/v3/56013304-21d4-4d49-b53f-09e74de9bd83"
       );
-      console.log("Top Message data fetch successful: ", response);
 
       setTopMessage(() => {
         return {

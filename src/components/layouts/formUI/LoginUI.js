@@ -109,7 +109,8 @@ const Login = ({ formHook: { onChange, form, submitForm, loading, data } }) => {
       >
         <div className="fsxl fwb m_r_t-32">Sign in</div>
         <div className="m_r_t-16 fss fwb">
-          Hello {data ? data.username + "," : "user,"} please login here
+          Hello {data?.username ? data.username + "," : "user,"} please login
+          here
         </div>
         <div className="fsxs m_r_t-32 w-100">E-mail/Mobile number:</div>
         <input
@@ -125,13 +126,7 @@ const Login = ({ formHook: { onChange, form, submitForm, loading, data } }) => {
             Invalid email address.
           </div>
         )}
-        <Link
-          className="link link-active fwb fsm mar_t-8 w-100 align-r"
-          to="/recover/email"
-        >
-          Forgot email?
-        </Link>
-        <div className="fsxs w-100">Password:</div>
+        <div className="fsxs w-100 mar_t-8">Password:</div>
         <div className="fcc w-100 pos_rel">
           <input
             type={pwdVisible ? "text" : "password"}
