@@ -1,16 +1,9 @@
 import React, { useEffect, useContext } from "react";
-import { useHistory } from "react-router-dom";
-
-import getMyJobs from "../../contexts/actions/jobs/getMyJobs";
 
 import { searchBarContext } from "../../App";
-import { GlobalContext } from "../../contexts/Provider";
 import DashboardBase from "../layouts/dashboard/DashboardBase";
 
 const Account = () => {
-  const history = useHistory();
-  const { myJobsDispatch, myJobsState } = useContext(GlobalContext);
-
   const {
     isSearchBarVisible,
     setIsSearchBarVisible,
@@ -27,11 +20,7 @@ const Account = () => {
     }
   }, []);
 
-  useEffect(() => {
-    getMyJobs(history)(myJobsDispatch);
-  }, []);
-
-  return <DashboardBase myJobsState={myJobsState} />;
+  return <DashboardBase />;
 };
 
 export default Account;

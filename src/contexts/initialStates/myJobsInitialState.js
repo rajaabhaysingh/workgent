@@ -4,8 +4,9 @@ export default {
     error: null,
     data: [],
   },
-  addMyJobs: {
+  addJob: {
     loading: false,
     error: null,
+    data: null,
   },
 };

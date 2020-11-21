@@ -14,7 +14,7 @@ export default (history) => (dispatch) => {
   });
 
   axiosInstance(history)
-    .get("/jobs/my/")
+    .get("/jobs/my/?ordering=-date_of_creation")
     .then((response) => {
       dispatch({
         type: MY_JOBS_SUCCESS,

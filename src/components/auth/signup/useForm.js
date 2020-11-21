@@ -25,16 +25,36 @@ export default () => {
   useEffect(() => {
     if (error) {
       let errorObject = {};
+      let hasNonFieldErrorOccured = false;
+
       for (let item in error) {
-        // todo (backend):
+        // tempItem to manipulte username-field error display
         let tempItem = item;
         if (item === "email" || item === "phone") {
           item = "username";
         }
-        // ------
+
         errorObject[item] = error[tempItem][0];
+
+        // hasNonFieldErrorOccured checking
+        if (
+          tempItem !== "email" &&
+          tempItem !== "phone" &&
+          tempItem !== "password" &&
+          tempItem !== "password_confirm"
+        ) {
+          hasNonFieldErrorOccured = true;
+        }
       }
       setFieldErrors(() => errorObject);
+
+      // if some other error occured (apart from username/password)
+      if (hasNonFieldErrorOccured) {
+        addToast("Registration failed. See logs for more details.", {
+          appearance: "error",
+          autoDismiss: true,
+        });
+      }
     }
   }, [error]);
 

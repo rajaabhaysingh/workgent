@@ -18,7 +18,7 @@ const MyCommunity = lazy(() => import("./dashboardBody/MyCommunity"));
 const Notification = lazy(() => import("./dashboardBody/Notification"));
 const Alerts = lazy(() => import("./dashboardBody/Alerts"));
 
-const DashboardBase = ({ myJobsState }) => {
+const DashboardBase = () => {
   // local state management
   const [isDashDrawerVisible, setIsDashDrawerVisible] = useState(false);
   const [dashDrawerClass, setDashDrawerClass] = useState(
@@ -97,13 +97,13 @@ const DashboardBase = ({ myJobsState }) => {
             <Suspense fallback="Loading...">
               <Switch>
                 <Route exact strict path={path}>
-                  <Overview myJobsState={myJobsState} />
+                  <Overview />
                 </Route>
                 <Route exact path={`${path}/my_applications`}>
                   <Applications />
                 </Route>
                 <Route path={`${path}/my_postings`}>
-                  <Postings myJobsState={myJobsState} />
+                  <Postings />
                 </Route>
                 <Route exact path={`${path}/my_transactions`}>
                   <Transactions />

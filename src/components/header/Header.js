@@ -1,4 +1,5 @@
 import React, { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 
 import logo from "../../res/header/logo_dark_bg.png";
 import ToggleButton from "./sideDrawer/ToggleButton";
@@ -54,7 +55,9 @@ const Header = ({ headerPosTop, drawerClickHandler }) => {
           >
             <ToggleButton />
           </button>
-          <img src={logo} alt="" className="site_logo"></img>
+          <Link to="/" className="link">
+            <img src={logo} alt="" className="site_logo"></img>
+          </Link>
         </div>
         {/* right part of the header */}
         <div className="fc">

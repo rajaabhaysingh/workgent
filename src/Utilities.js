@@ -45,28 +45,74 @@ export const getUrlParams = (queryString) => {
   return params;
 };
 
-//
-export const GetData = async (endPoint, params, header, requestType) => {
-  switch (requestType) {
-    case "GET":
-      try {
-        let response = axios.get(endPoint, params, header);
-        return response;
-      } catch (error) {
-        return error;
-      }
+export const TimestampToTime = (tsVal, format) => {
+  const ts = new Date(parseInt(tsVal));
 
-    default:
-      break;
-  }
-};
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
 
-export const TimestampToTime = (ts, format) => {
   switch (format) {
-    case "DMY":
-      break;
+    case "dd Mon yyyy":
+      return (
+        ts.getDate() + " " + months[ts.getMonth()] + " " + ts.getFullYear()
+      );
+
+    case "dd Mmm yyyy, hh:mm:ss":
+      return (
+        ts.getDate() +
+        " " +
+        months[ts.getMonth()] +
+        " " +
+        ts.getFullYear() +
+        ",  " +
+        ts.getHours() +
+        ":" +
+        ts.getMinutes() +
+        ":" +
+        ts.getSeconds()
+      );
+
+    case "dd Mmm yyyy, hh:mm":
+      return (
+        ts.getDate() +
+        " " +
+        months[ts.getMonth()] +
+        " " +
+        ts.getFullYear() +
+        ",  " +
+        ts.getHours() +
+        ":" +
+        ts.getMinutes()
+      );
+
+    case "dd/mm/yyyy, hh:mm":
+      return (
+        ts.getDate() +
+        "/" +
+        ts.getMonth() +
+        "/" +
+        ts.getFullYear() +
+        ",  " +
+        ts.getHours() +
+        ":" +
+        ts.getMinutes()
+      );
 
     default:
-      break;
+      return (
+        ts.getDate() + " " + months[ts.getMonth()] + " " + ts.getFullYear()
+      );
   }
 };

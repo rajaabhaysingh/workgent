@@ -60,6 +60,9 @@
   display: flex;
   flex: 2;
 }
+.f_wrap {
+  flex-wrap: wrap;
+}
 
 /*for screen size larger or equal to 768px*/
 @media screen and (min-width: 768px) {
@@ -73,6 +76,9 @@
   .pc_align_cent {
     align-items: center;
   }
+  .justev-pc {
+    justify-content: space-evenly;
+  }
 }
 
 /*for screen size greater or equal to 375px less than  768px*/
@@ -84,6 +90,9 @@
   .f_lrtb-notab {
     display: flex;
   }
+  .alignc-mob {
+    align-items: center;
+  }
 }
 
 /*for screen size less than 375px*/
@@ -92,5 +101,8 @@
   .f_lrtb-notab {
     display: flex;
     flex-direction: column;
+  }
+  .alignc-mob {
+    align-items: center;
   }
 }

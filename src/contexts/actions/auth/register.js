@@ -28,7 +28,7 @@ export const register = ({
       });
     })
     .catch((error) => {
-      console.log(error.toString() + ", Error code: coacau-re");
+      console.log(error.response?.data, "Error code: coacau-re");
       dispatch({
         type: REGISTER_ERROR,
         payload: error.response ? error.response.data : "COULD NOT CONNECT",

@@ -9,7 +9,7 @@ import { useToasts } from "react-toast-notifications";
 
 const API_KEY = "AIzaSyDEoiDfpQW73648IFxcQUNIupKCOJKf6IQ";
 
-const LocationAutoComplete = ({ icon, form, setForm }) => {
+const LocationAutoComplete = ({ icon }) => {
   const { addToast } = useToasts();
 
   // local state management
@@ -59,14 +59,6 @@ const LocationAutoComplete = ({ icon, form, setForm }) => {
         .then((latLng) => {
           localStorage.setItem("lat", latLng.lat);
           localStorage.setItem("long", latLng.lng);
-          if (form && setForm) {
-            setForm({
-              ...form,
-              lat: latLng.lat,
-              long: latLng.lng,
-              geo_add: add,
-            });
-          }
           setLocation(() => {
             return {
               address: add,
@@ -144,14 +136,6 @@ const LocationAutoComplete = ({ icon, form, setForm }) => {
             address: currentLocation,
           };
         });
-        if (form && setForm) {
-          setForm({
-            ...form,
-            lat: posX,
-            long: posY,
-            geo_add: currentLocation,
-          });
-        }
         setAddressPlaceholder(() => "Location");
         addToast(currentLocation, {
           appearance: "success",

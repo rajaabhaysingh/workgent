@@ -42,14 +42,22 @@ export default (history = null) => {
         });
       }
       // if token has issues, server returns 403
-      if (error.response.status === 403) {
+      if (
+        error.response.status === 403 ||
+        error.response?.data?.code === "token_not_valid"
+        //  || error.response?.statusText === "Unauthorized"
+      ) {
         localStorage.removeItem("tokens");
+        localStorage.removeItem("username");
+
+        alert("You've been logged out. Please login and continue agian.");
 
         // redirect to login page
         if (history) {
           history.push("/login");
         } else {
-          window.location("/login");
+          console.log("window location: /login");
+          window.location.assign("/login");
         }
       } else {
         return new Promise((resolve, reject) => {

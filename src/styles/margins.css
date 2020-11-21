@@ -58,6 +58,9 @@
 .mar_l-64 {
   margin-left: 64px;
 }
+.mar_l-80 {
+  margin-left: 80px;
+}
 
 /* margin - right */
 .mar_r-4 {
@@ -195,6 +198,18 @@
   .mar_pc-l_mob-t-8 {
     margin-left: 8px;
   }
+  .mar_pc-l_mob-t-16 {
+    margin-left: 16px;
+  }
+  .mar_pc-l_mob-t-32 {
+    margin-left: 32px;
+  }
+  .mar_pc-l_mob-t-64 {
+    margin-left: 64px;
+  }
+  .mar_pc-l-152 {
+    margin-left: 152px;
+  }
 }
 
 /*for screen size greater or equal to 375px less than  768px*/
@@ -240,8 +255,20 @@
   .mob_mar_t-32 {
     margin-top: 32px;
   }
+  .mob_mar_l-64 {
+    margin-left: 64px;
+  }
   .mar_pc-l_mob-t-8 {
     margin-top: 8px;
+  }
+  .mar_pc-l_mob-t-16 {
+    margin-top: 16px;
+  }
+  .mar_pc-l_mob-t-32 {
+    margin-top: 32px;
+  }
+  .mar_pc-l_mob-t-64 {
+    margin-top: 64px;
   }
 }
 
@@ -288,7 +315,19 @@
   .mob_mar_t-32 {
     margin-top: 32px;
   }
+  .mob_mar_l-64 {
+    margin-left: 64px;
+  }
   .mar_pc-l_mob-t-8 {
     margin-top: 8px;
+  }
+  .mar_pc-l_mob-t-16 {
+    margin-top: 16px;
+  }
+  .mar_pc-l_mob-t-32 {
+    margin-top: 32px;
+  }
+  .mar_pc-l_mob-t-64 {
+    margin-top: 64px;
   }
 }

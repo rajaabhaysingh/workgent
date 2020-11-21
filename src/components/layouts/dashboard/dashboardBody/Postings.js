@@ -7,7 +7,7 @@ import ErrorBoundary from "../../../errorBoundary/ErrorBoundary";
 const PostingsBase = lazy(() => import("./postings/PostingsBase"));
 const NewPost = lazy(() => import("./postings/NewPost"));
 
-const Postings = ({ myJobsState }) => {
+const Postings = () => {
   let { path } = useRouteMatch();
 
   return (
@@ -15,7 +15,7 @@ const Postings = ({ myJobsState }) => {
       <Suspense fallback="">
         <Switch>
           <Route exact strict path={path}>
-            <PostingsBase myJobsState={myJobsState} />
+            <PostingsBase />
           </Route>
           <Route exact path={`${path}/new_post`}>
             <NewPost />

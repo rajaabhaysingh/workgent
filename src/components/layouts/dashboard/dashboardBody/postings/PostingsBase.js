@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useRouteMatch, useHistory } from "react-router-dom";
 
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 import JobCardPrivate from "../../../jobs/JobCardPrivate";
+import { GlobalContext } from "../../../../../contexts/Provider";
+import getMyJobs from "../../../../../contexts/actions/jobs/getMyJobs";
 
 // helper fn to render jobs below
 const renderJobs = (data) => {
@@ -100,20 +102,27 @@ const renderPlaceholder = () => {
   );
 };
 
-const PostingsBase = ({
-  myJobsState: {
-    myJobs: { loading, error, data },
-  },
-}) => {
+const PostingsBase = () => {
   let { url } = useRouteMatch();
   const history = useHistory();
+
+  const {
+    myJobsDispatch,
+    myJobsState: {
+      myJobs: { loading, error, data },
+    },
+  } = useContext(GlobalContext);
+
+  console.log("My postings", loading, error, data);
+
+  useEffect(() => {
+    getMyJobs(history)(myJobsDispatch);
+  }, []);
 
   // handlePostNewJob
   const handlePostNewJob = () => {
     history.push(`${url}/new_post`);
   };
-
-  console.log(loading, error, data);
 
   return (
     <div className="fcol w-100 h-100 of-scr">

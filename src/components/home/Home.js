@@ -4,121 +4,15 @@ import Chatbot from "../chatbot/Chatbot";
 import CarouselSlider from "../layouts/carousel/CarouselSlider";
 import TrendingBox from "../layouts/trendingBox/TrendingBox";
 import NormalJobSlider from "../layouts/slider/NormalJobSlider";
-import NormalJob from "../layouts/jobs/NormalJob";
 
 // importing contexts
 import { searchBarContext } from "../../App";
 import { GlobalContext } from "../../contexts/Provider";
 import HomeTabs from "../layouts/tabs/HomeTabs";
-
-// normalJobList
-const normalJobList = [
-  {
-    jobId: "d323e",
-    image:
-      "https://cdn107.picsart.com/201383225001202.jpg?type=webp&to=crop&r=256",
-    jobName: "Paddy reaper and harvestor and cultivator",
-    jobOwner: "Gurusharan Das",
-    location: "Level 1, Level 2",
-    qtyReq: 12,
-    isPermanent: false,
-    workDuration: 23,
-    workDurationUnit: "day(s)",
-    payAmt: 234,
-    payAmtUnit: "day",
-    isPrime: false,
-  },
-  {
-    jobId: "xres4",
-    image:
-      "https://cdn107.picsart.com/201383225001202.jpg?type=webp&to=crop&r=256",
-    jobName: "Painter",
-    jobOwner: "Surya Builders",
-    location: "Jagdishpur, Bhagalpur",
-    qtyReq: 2,
-    isPermanent: false,
-    workDuration: 1,
-    workDurationUnit: "week(s)",
-    payAmt: 2400,
-    payAmtUnit: "task",
-    isPrime: true,
-  },
-  {
-    jobId: "2r23r",
-    image:
-      "https://cdn107.picsart.com/201383225001202.jpg?type=webp&to=crop&r=256",
-    jobName: "Paddy reaper",
-    jobOwner: "Gurusharan Das",
-    location: "Level 1, Level 2",
-    qtyReq: 12,
-    isPermanent: false,
-    workDuration: 23,
-    workDurationUnit: "day(s)",
-    payAmt: 234,
-    payAmtUnit: "day",
-    isPrime: false,
-  },
-  {
-    jobId: "sac2323",
-    image:
-      "https://cdn107.picsart.com/201383225001202.jpg?type=webp&to=crop&r=256",
-    jobName: "Painter",
-    jobOwner: "Surya Builders",
-    location: "Jagdishpur, Bhagalpur",
-    qtyReq: 2,
-    isPermanent: false,
-    workDuration: 1,
-    workDurationUnit: "week(s)",
-    payAmt: 2400,
-    payAmtUnit: "task",
-    isPrime: true,
-  },
-  {
-    jobId: "h8787",
-    image:
-      "https://cdn107.picsart.com/201383225001202.jpg?type=webp&to=crop&r=256",
-    jobName: "Maid",
-    jobOwner: "Ramakant Singh",
-    location: "Aliganj, Bhagalpur",
-    qtyReq: 11,
-    isPermanent: true,
-    workDuration: null,
-    workDurationUnit: "Other",
-    payAmt: 4000,
-    payAmtUnit: "month",
-    isPrime: false,
-  },
-  {
-    jobId: "v5t56",
-    image:
-      "https://cdn107.picsart.com/201383225001202.jpg?type=webp&to=crop&r=256",
-    jobName: "Maid",
-    jobOwner: "Ramakant Singh",
-    location: "Aliganj, Bhagalpur, Nihar",
-    qtyReq: 11,
-    isPermanent: true,
-    workDuration: null,
-    workDurationUnit: "Other",
-    payAmt: 4000,
-    payAmtUnit: "month",
-    isPrime: false,
-  },
-  {
-    jobId: "r4de3",
-    image:
-      "https://cdn107.picsart.com/201383225001202.jpg?type=webp&to=crop&r=256",
-    jobName: "Maid",
-    jobOwner: "Ramakant Singh",
-    location: "Aliganj, Bhagalpur",
-    qtyReq: 11,
-    isPermanent: true,
-    workDuration: null,
-    workDurationUnit: "Other",
-    payAmt: 4000,
-    payAmtUnit: "month",
-    isPrime: false,
-  },
-];
+import getPublicJobsHome from "../../contexts/actions/jobs/getPublicJobsHome";
+import { useHistory } from "react-router-dom";
+import Footer from "../layouts/footer/Footer";
+import HomeRight from "../layouts/homeRight/HomeRight";
 
 const Home = () => {
   // using imported context
@@ -129,41 +23,60 @@ const Home = () => {
     setSearchBarClass,
   } = useContext(searchBarContext);
 
-  const context = useContext(GlobalContext);
+  const history = useHistory();
+
+  // fetching public jobs of home
+  const {
+    publicJobsHomeDispatch,
+    publicJobsHomeState: {
+      publicJobsHome: { loading, error, data },
+    },
+  } = useContext(GlobalContext);
+
+  useEffect(() => {
+    getPublicJobsHome(history)(publicJobsHomeDispatch);
+  }, []);
+
+  console.log("Home public jobs", loading, error, data);
 
   // hiding search bar by default
   useEffect(() => {
-    if (!isSearchBarVisible) {
-      setIsSearchBarVisible(() => true);
-      setSearchBarVisibleClass(() => "search_visible_body h-100 w-100");
-      setSearchBarClass(() => "search_bar_visible pos_abs fcc w-100");
+    if (isSearchBarVisible) {
+      setIsSearchBarVisible(() => false);
+      setSearchBarVisibleClass(() => "search_hidden_body h-100 w-100");
+      setSearchBarClass(() => "search_bar_hidden pos_abs fcc w-100");
     }
   }, []);
 
   return (
-    <div className="home h-100 w-100 bb fcol">
+    <div className="home w-100 bb fcol">
       <CarouselSlider />
-      <section className="home_layout_box of-hid shadow_neumorph">
+      <section className="home_layout_box bg_white">
         {/* left part */}
-        <div className="home_lb-1 bb bg_pri"></div>
+        <div className="home_lb-1 bb round-8 bg_gray-light"></div>
 
         {/* center part */}
         <div className="home_lb-2 bb fcol">
           <TrendingBox />
-          <div className="w-100 bg_white h-1 mar_t-32 shadow_1-1-4-dark"></div>
-          <NormalJobSlider
-            dataList={normalJobList}
-            heading="Trending jobs nearby"
-          />
-          <div className="w-100 bg_white h-1 h-1 mar_t-32 shadow_1-1-4-dark"></div>
+          <div className="w-100 bg_white h-1 mar_t-32 shadow_0-0-8-dark"></div>
+          <NormalJobSlider data={data} heading="Trending jobs nearby" />
+          <div className="w-100 bg_white h-1 mar_t-48 shadow_0-0-8-dark"></div>
+          <NormalJobSlider data={data} heading="Based on your profile" />
+          <div className="w-100 bg_white h-1 mar_t-48 shadow_0-0-8-dark"></div>
           <HomeTabs />
         </div>
 
         {/* right part */}
-        <div className="home_lb-3 bb bg_err-light"></div>
+        <div className="home_lb-3 bb">
+          <HomeRight />
+        </div>
       </section>
-      <section>You are inside Home.</section>
-      <section>Footer</section>
+      <section className="home_layout_box bg_white">
+        Other section will be added soon.
+      </section>
+      <section className="w-100 mar_t-16">
+        <Footer />
+      </section>
 
       {/* <div
         style={{ position: "absolute", bottom: 0, right: 0 }}

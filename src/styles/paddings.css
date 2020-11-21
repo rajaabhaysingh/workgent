@@ -2,6 +2,9 @@
 .pad-0 {
   padding: 0;
 }
+.pad-2 {
+  padding: 2px;
+}
 .pad-4 {
   padding: 4px;
 }
@@ -22,6 +25,9 @@
 }
 .pad_4-0 {
   padding: 4px 0;
+}
+.pad_0-2 {
+  padding: 0 2px;
 }
 .pad_0-4 {
   padding: 0 4px;

@@ -1,0 +1,2 @@
+(this.webpackJsonpfrontend=this.webpackJsonpfrontend||[]).push([[7],{268:function(e,t,n){"use strict";n.r(t);var a=n(0),s=n.n(a);t.default=function(){return s.a.createElement("div",{className:"fcol w-100 h-100 of-scr"},s.a.createElement("div",{className:"dash_body_box bg_white round-8 pad-16"},s.a.createElement("div",null)),"This is Alerts.")}}}]);
+//# sourceMappingURL=7.51e7af40.chunk.js.map

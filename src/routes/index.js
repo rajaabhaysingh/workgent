@@ -11,6 +11,7 @@ import Events from "../components/events/Events";
 import Help from "../components/help/Help";
 import Error404 from "../components/layouts/errors/Error404";
 import Premium from "../components/premium/Premium";
+import Contact from "../components/contact/Contact";
 
 const routes = [
   // Home
@@ -57,12 +58,13 @@ const routes = [
     title: "Workgent - Account",
     needsAuth: true,
   },
-  // Search
+  // Search/jobs
   {
-    path: "/search",
+    path: "/jobs",
     component: Search,
     title: `Workgent - ${"Search name"}`,
     needsAuth: false,
+    exact: false,
   },
   // Trending
   {
@@ -105,6 +107,12 @@ const routes = [
     component: Error404,
     title: "Error 404",
     exact: true,
+    needsAuth: false,
+  },
+  {
+    path: "/contact",
+    component: Contact,
+    title: "Contact us",
     needsAuth: false,
   },
 ];

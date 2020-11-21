@@ -134,7 +134,7 @@ const RegisterUI = ({
           className="btn btn_pri m_r_t-32 h-40 bb fcc w-100 bg_pri cur fc_white fsm round-8 fwb"
           type="submit"
         >
-          CONTINUE
+          REGISTER NOW
         </button>
       );
     } else if (agreeTerms && loading) {
@@ -149,10 +149,10 @@ const RegisterUI = ({
     } else {
       return (
         <button
-          className="btn m_r_t-32 h-40 bb fcc w-100 bg-light-gray fc_black fsm round-8 fwb"
+          className="btn m_r_t-32 h-40 bb fcc w-100 bg-light-gray fc_gray fsm round-8 fwb"
           type="button"
         >
-          CONTINUE
+          Agree TnC to continue
         </button>
       );
     }

@@ -8,14 +8,14 @@ import Dots from "./Dots";
 
 const CarouselSlider = ({ carouselItems }) => {
   return (
-    <div className="pad_b-16 pos_rel">
+    <div className="pad_b-16 pos_rel w-100">
       <Carousel
         additionalTransfrom={0}
         arrows
         autoPlaySpeed={3000}
         centerMode={false}
-        className="shadow_neumorph pad_16-0"
-        containerClass="container-with-dots"
+        className="pad_16-0"
+        containerClass="container-with-dots bg_white"
         customDot={<Dots />}
         dotListClass=""
         draggable
