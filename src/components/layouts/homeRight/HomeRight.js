@@ -6,8 +6,8 @@ import apple from "../../../res/utils/apple.svg";
 
 const HomeRight = () => {
   return (
-    <div className="w-100 pad_l-8 bb fcol">
-      <div className="fcol w-100 pad-16 bb shadow_0-0-4-dark round-8">
+    <div className="w-100 bb mob_mar_t-32 fcol">
+      <div className="fcol w-100 pad-16 bb shadow_1-1-4-dark round-8">
         <div className="fsxs w-100">Download apps for better experience</div>
         <Link className="link mar_t-16 w-100">
           <button className="btn hov_ter bb fc w-100 pad-8 fc round-4 bg_ter-light cur">
@@ -58,7 +58,7 @@ const HomeRight = () => {
           </button>
         </div>
       </div>
-      <div className="fcol w-100 mar_t-32 pad-16 bb shadow_1-1-4-light round-8">
+      <div className="fcol w-100 mar_t-32 pad-16 bb shadow_1-1-4-dark round-8">
         <div className="fc w-100">
           <div className="fcol">
             <div className="fsm fwb">

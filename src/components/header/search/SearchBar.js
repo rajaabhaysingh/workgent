@@ -8,6 +8,9 @@ const SearchBar = () => {
   const performQuery = (e) => {
     e.preventDefault();
     console.log("Query performed without any search criteria.");
+    alert(
+      "This feature will be available soon. Sorry for the inconvenience caused."
+    );
   };
 
   return (

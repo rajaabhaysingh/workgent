@@ -12,6 +12,7 @@ import { searchBarContext } from "../../../App";
 import isAuthenticated from "../../../utils/isAuthenticated";
 import postApplication from "../../../contexts/actions/jobs/postApplication";
 import { useState } from "react";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const JobPage = () => {
   // local state management
@@ -114,9 +115,81 @@ const JobPage = () => {
     }
   };
 
-  return (
-    <div className="fcol w-100">
-      <section className="job_page_layout_box bg_white fcol w-100">
+  // renderPlaceholder
+  const renderPlaceholder = () => {
+    return (
+      <SkeletonTheme color="#8a8a8a" highlightColor="#ffffff">
+        <div className="fcol">
+          <div className="f_lrtb alignc-mob">
+            <Skeleton height={120} width={120} />
+            <div className="mar_pc-l_mob-t-32 alignc-mob fcol">
+              <Skeleton count={1} width={100} height={32} />
+              <Skeleton
+                style={{ marginTop: "8px" }}
+                count={1}
+                width={150}
+                height={16}
+              />
+              <Skeleton
+                style={{ marginTop: "32px" }}
+                count={1}
+                width={100}
+                height={16}
+              />
+            </div>
+          </div>
+          <div className="mar_t-32 mar_pc-l-152 fcol">
+            <Skeleton
+              style={{ marginTop: "8px" }}
+              count={1}
+              width={80}
+              height={12}
+            />
+            <Skeleton
+              style={{ marginTop: "16px" }}
+              count={1}
+              width={250}
+              height={32}
+            />
+          </div>
+          <div className="mar_t-32 mar_pc-l-152">
+            <div className="fc mar_t-32">
+              <Skeleton count={1} width={80} height={40} />
+              <Skeleton
+                circle={true}
+                style={{ marginLeft: "8px" }}
+                width={40}
+                height={40}
+              />
+              <Skeleton
+                circle={true}
+                style={{ marginLeft: "8px" }}
+                width={40}
+                height={40}
+              />
+              <Skeleton
+                circle={true}
+                style={{ marginLeft: "8px" }}
+                width={40}
+                height={40}
+              />
+            </div>
+            <Skeleton
+              style={{ marginTop: "16px" }}
+              count={1}
+              width={200}
+              height={12}
+            />
+          </div>
+        </div>
+      </SkeletonTheme>
+    );
+  };
+
+  // renderJobDetails
+  const renderJobDetails = () => {
+    if (data) {
+      return (
         <div className="fcol">
           <div className="f_lrtb alignc-mob">
             <img
@@ -124,7 +197,7 @@ const JobPage = () => {
               src={data.logo_image || placeholder}
               alt=""
             />
-            <div className="mar_pc-l_mob-t-32 fcol">
+            <div className="mar_pc-l_mob-t-32 fcol alignc-mob">
               <div className="fwb fsl">{data.title || "N/A"}</div>
               <div className="mar_t-4 fsm fc_5c">
                 {data.address || "India"}, {data.subDist || ""}
@@ -244,8 +317,20 @@ const JobPage = () => {
             </div>
           </div>
         </div>
+      );
+    } else {
+      return <div>No such jobs found. Please check your url.</div>;
+    }
+  };
+
+  return (
+    <div className="fcol w-100">
+      <section className="job_page_layout_box bg_white fcol w-100">
+        {loading ? renderPlaceholder() : renderJobDetails()}
       </section>
-      <section className="home_layout_box bg_white fcol"></section>
+      <section className="home_layout_box bg_white fcol">
+        Other contents to be added soon.
+      </section>
       <section className="w-100 mar_t-16">
         <Footer />
       </section>

@@ -255,6 +255,9 @@
   .mob_mar_t-32 {
     margin-top: 32px;
   }
+  .mob_mar_l-16 {
+    margin-left: 16px;
+  }
   .mob_mar_l-64 {
     margin-left: 64px;
   }
@@ -314,6 +317,9 @@
   /* misc */
   .mob_mar_t-32 {
     margin-top: 32px;
+  }
+  .mob_mar_l-16 {
+    margin-left: 16px;
   }
   .mob_mar_l-64 {
     margin-left: 64px;

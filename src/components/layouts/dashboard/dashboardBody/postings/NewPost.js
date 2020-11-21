@@ -535,7 +535,7 @@ const NewPost = () => {
   };
 
   return (
-    <div className="fcol w-100 h-100 of-scr">
+    <div className="fcol w-100 of-scr">
       <Prompt when={isFormHalfFilled} message="Discared changes in form ?" />
       <div className="dash_body_box bg_white round-8 pad_pc-32_mob-16">
         <div className="f_lrtb pc_space_bw">
@@ -973,7 +973,10 @@ const NewPost = () => {
                 </>
               )}
             </div>
-            <div className="mar_t-16 w-100 fcol bor_pri-1 pad-16 round-4 bb">
+            <div className="fsxs mar_t-16 fc_sec">
+              Select a job image<span className="fc_err">*</span>
+            </div>
+            <div className="mar_t-4 w-100 fcol bor_pri-1 pad-16 round-4 bb">
               <div
                 {...getRootProps({
                   className: "w-100",

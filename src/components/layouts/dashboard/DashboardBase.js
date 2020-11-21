@@ -94,7 +94,13 @@ const DashboardBase = () => {
         {/* body */}
         <div className="dash_body h-100 of-scr">
           <ErrorBoundary>
-            <Suspense fallback="Loading...">
+            <Suspense
+              fallback={
+                <div className="fcc w-100" style={{ height: "100vh" }}>
+                  <i className="fas fa-spinner fs2x fa-spin"></i>
+                </div>
+              }
+            >
               <Switch>
                 <Route exact strict path={path}>
                   <Overview />

@@ -1,17 +1,21 @@
-import Home from "../components/home/Home";
-import Signup from "../components/auth/signup/Signup";
-import Login from "../components/auth/login/Login";
-import ResetPassword from "../components/auth/resetPassword/ResetPassword";
-import Categories from "../components/categories/Categories";
-import Account from "../components/account/Account";
-import Search from "../components/search/Search";
-import Trending from "../components/trending/Trending";
-import Jobs from "../components/jobs/Jobs";
-import Events from "../components/events/Events";
-import Help from "../components/help/Help";
-import Error404 from "../components/layouts/errors/Error404";
-import Premium from "../components/premium/Premium";
-import Contact from "../components/contact/Contact";
+import { lazy } from "react";
+
+const Home = lazy(() => import("../components/home/Home"));
+const Signup = lazy(() => import("../components/auth/signup/Signup"));
+const Login = lazy(() => import("../components/auth/login/Login"));
+const ResetPassword = lazy(() =>
+  import("../components/auth/resetPassword/ResetPassword")
+);
+const Categories = lazy(() => import("../components/categories/Categories"));
+const Account = lazy(() => import("../components/account/Account"));
+const Search = lazy(() => import("../components/search/Search"));
+const Trending = lazy(() => import("../components/trending/Trending"));
+const Jobs = lazy(() => import("../components/jobs/Jobs"));
+const Events = lazy(() => import("../components/events/Events"));
+const Help = lazy(() => import("../components/help/Help"));
+const Error404 = lazy(() => import("../components/layouts/errors/Error404"));
+const Premium = lazy(() => import("../components/premium/Premium"));
+const Contact = lazy(() => import("../components/contact/Contact"));
 
 const routes = [
   // Home

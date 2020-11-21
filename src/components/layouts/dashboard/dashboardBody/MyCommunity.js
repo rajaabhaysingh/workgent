@@ -15,7 +15,7 @@ const MyCommunity = () => {
   };
 
   return (
-    <div className="fcol w-100 h-100 of-scr">
+    <div className="fcol w-100 of-scr">
       <div className="dash_body_box fcol f1 bb bg_white round-8 pad_pc-32_mob-16">
         <div className="f_lrtb w-100 pc_space_bw">
           <div className="fcol">

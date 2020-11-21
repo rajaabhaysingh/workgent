@@ -4,6 +4,7 @@ import { GlobalContext } from "../../../../contexts/Provider";
 import getMyApplications from "../../../../contexts/actions/jobs/getMyApplications";
 import placeholder from "../../../../res/jobs/placeholder.svg";
 import { TimestampToTime } from "../../../../Utilities";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 
 const Applications = () => {
   const history = useHistory();
@@ -60,7 +61,7 @@ const Applications = () => {
       return (
         <div className="fcol job_list bb mar_t-16">
           {myApplicationsData.results.map((item) => (
-            <div className="fcol job_card_pvt pad-16 bb cur" key={item.id}>
+            <div className="fcol job_card_pvt pad-16 bb f0 cur" key={item.id}>
               <div className="fc">
                 <img
                   className="h-40 w-40 round-complete"
@@ -103,6 +104,46 @@ const Applications = () => {
     }
   };
 
+  // renderPlaceholder
+  const renderPlaceholder = () => {
+    return (
+      <div style={{ maxWidth: "320px" }} className="fcol mar_t-16 of-hid">
+        <SkeletonTheme color="#8a8a8a" highlightColor="#ffffff">
+          <div className="fc">
+            <Skeleton circle={true} height={40} width={40} />
+            <div className="fcol mar_l-8">
+              <Skeleton count={1} width={250} height={16} />
+              <Skeleton
+                style={{ marginTop: "4px" }}
+                count={1}
+                width={140}
+                height={10}
+              />
+            </div>
+          </div>
+          <div className="fcol mar_t-16">
+            <Skeleton count={1} width={300} height={12} />
+          </div>
+          <div className="fc mar_t-32">
+            <Skeleton circle={true} height={40} width={40} />
+            <div className="fcol mar_l-8">
+              <Skeleton count={1} width={250} height={16} />
+              <Skeleton
+                style={{ marginTop: "4px" }}
+                count={1}
+                width={140}
+                height={10}
+              />
+            </div>
+          </div>
+          <div className="fcol mar_t-16">
+            <Skeleton count={1} width={300} height={12} />
+          </div>
+        </SkeletonTheme>
+      </div>
+    );
+  };
+
   // helper fn to render history below
   const renderEmptyContent = () => {
     return (
@@ -114,7 +155,7 @@ const Applications = () => {
   };
 
   return (
-    <div className="fcol w-100 h-100 of-scr">
+    <div className="fcol w-100 of-scr">
       <div className="dash_body_box fcol f1 bb bg_white round-8 pad_pc-32_mob-16">
         <div className="f_lrtb w-100 pc_space_bw">
           <div className="fcol">
@@ -127,7 +168,7 @@ const Applications = () => {
         {/* previously posted jobs list */}
         <div className="fcol mar_t-32 f1">
           <div className="fsm fc_sec fwb">Recent applications</div>
-          {renderApplications()}
+          {myApplicationsLoading ? renderPlaceholder() : renderApplications()}
         </div>
       </div>
       <div className="dash_body_box bg_white round-8 pad_pc-32_mob-16">

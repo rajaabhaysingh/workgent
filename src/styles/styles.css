@@ -246,6 +246,9 @@ img {
 .w-16p {
   width: 16px;
 }
+.w-20p {
+  width: 20px;
+}
 .w-32p {
   width: 32px;
 }
@@ -570,6 +573,9 @@ img {
   .hov_ter:active {
     background: var(--ter-col);
   }
+  .hov_t_pri:active {
+    color: var(--pri-col);
+  }
 }
 /* stylus-based screens */
 @media (hover: none) and (pointer: fine) {
@@ -618,6 +624,9 @@ img {
   }
   .hov_ter:active {
     background: var(--ter-col);
+  }
+  .hov_t_pri:active {
+    color: var(--pri-col);
   }
 }
 /* Nintendo Wii controller, Microsoft Kinect */
@@ -671,6 +680,9 @@ img {
   .hov_ter:hover {
     background: var(--ter-col);
   }
+  .hov_t_pri:hover {
+    color: var(--pri-col);
+  }
 }
 /* mouse, touch pad */
 @media (hover: hover) and (pointer: fine) {
@@ -722,6 +734,9 @@ img {
   }
   .hov_ter:hover {
     background: var(--ter-col);
+  }
+  .hov_t_pri:hover {
+    color: var(--pri-col);
   }
 }
 
@@ -962,7 +977,7 @@ img {
     width: 420px;
     padding: 32px;
     box-sizing: border-box;
-    border-radius: 24px;
+    border-radius: 8px;
   }
   .normal_job {
     min-width: 200px;
@@ -1105,7 +1120,7 @@ img {
     width: 360px;
     padding: 32px 16px 16px 16px;
     box-sizing: border-box;
-    border-radius: 8px;
+    border-radius: 4px;
   }
   .normal_job {
     min-width: 160px;
@@ -1380,7 +1395,7 @@ img {
     display: flex;
     width: calc(100% - 500px);
     order: 1;
-    padding: 0 16px;
+    padding: 0 24px;
   }
   .home_lb-3 {
     min-width: 300px;

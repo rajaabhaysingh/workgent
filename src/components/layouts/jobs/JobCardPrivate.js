@@ -12,7 +12,7 @@ const JobCardPrivate = ({ job }) => {
   };
 
   return (
-    <div className="fcol job_card_pvt pad-16 bb cur">
+    <div className="fcol job_card_pvt f0 pad-16 bb cur">
       <div className="vis-flex pos_rel">
         <img
           className="h-40 w-40 round-complete"
